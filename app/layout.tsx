@@ -3,6 +3,7 @@ import './globals.css'
 import ScrollToTop from '@/components/ScrollToTop'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://jerseyproper.com'),
   title: 'Jersey Proper',
   description: 'Premium digital experiences for businesses that refuse to blend in. Brand identity, web design, and lead generation for visionary brands.',
   keywords: ['creative studio', 'brand identity', 'web design', 'lead generation', 'premium', 'boutique agency'],
@@ -11,11 +12,20 @@ export const metadata: Metadata = {
     description: 'Premium digital experiences for businesses that refuse to blend in.',
     siteName: 'Jersey Proper',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Jersey Proper',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Jersey Proper',
     description: 'Premium digital experiences for businesses that refuse to blend in.',
+    images: ['/og-image.png'],
   },
 }
 
