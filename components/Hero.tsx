@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-jp-black texture-overlay">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-jp-black texture-overlay pt-20 pb-24 md:pt-0 md:pb-0">
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-jp-deep/50 via-transparent to-jp-black/80" />
       
@@ -36,7 +36,7 @@ export default function Hero() {
               <div className="diamond" />
               <span className="w-8 h-px bg-gold/50" />
             </div>
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-[0.2em] uppercase text-cream font-medium">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] sm:tracking-[0.2em] uppercase text-cream font-medium">
               Jersey
             </h1>
             <div className="hidden sm:flex items-center gap-2">
@@ -47,7 +47,7 @@ export default function Hero() {
           </div>
           
           {/* PROPER with gold gradient */}
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-[0.2em] uppercase font-medium gold-text">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] sm:tracking-[0.2em] uppercase font-medium gold-text">
             Proper
           </h1>
         </motion.div>
@@ -57,15 +57,15 @@ export default function Hero() {
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="flex items-center justify-center gap-3 mb-12"
+          className="flex items-center justify-center gap-2 sm:gap-3 mb-8 sm:mb-12"
         >
-          <span className="w-16 md:w-24 h-px bg-gradient-to-r from-transparent to-gold/50" />
-          <div className="diamond opacity-60" />
-          <span className="w-8 md:w-12 h-px bg-gold/50" />
-          <div className="diamond" />
-          <span className="w-8 md:w-12 h-px bg-gold/50" />
-          <div className="diamond opacity-60" />
-          <span className="w-16 md:w-24 h-px bg-gradient-to-l from-transparent to-gold/50" />
+          <span className="w-10 sm:w-16 md:w-24 h-px bg-gradient-to-r from-transparent to-gold/50" />
+          <div className="diamond opacity-60 scale-75 sm:scale-100" />
+          <span className="w-6 sm:w-8 md:w-12 h-px bg-gold/50" />
+          <div className="diamond scale-75 sm:scale-100" />
+          <span className="w-6 sm:w-8 md:w-12 h-px bg-gold/50" />
+          <div className="diamond opacity-60 scale-75 sm:scale-100" />
+          <span className="w-10 sm:w-16 md:w-24 h-px bg-gradient-to-l from-transparent to-gold/50" />
         </motion.div>
 
         {/* Tagline */}
@@ -73,11 +73,9 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="font-sans text-lg md:text-xl text-cream/60 max-w-2xl mx-auto mb-12 font-light leading-relaxed"
+          className="font-sans text-base sm:text-lg md:text-xl text-cream/60 max-w-2xl mx-auto mb-8 sm:mb-12 font-light leading-relaxed px-4"
         >
-          Premium digital experiences for businesses
-          <br className="hidden md:block" />
-          {' '}that refuse to blend in
+          Premium digital experiences for businesses that refuse to blend in
         </motion.p>
 
         {/* CTA */}
@@ -101,7 +99,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
+          className="hidden sm:block absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}
