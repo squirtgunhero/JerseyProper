@@ -10,11 +10,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Jersey Proper',
     description: 'Premium digital experiences for businesses that refuse to blend in.',
+    url: 'https://jerseyproper.com',
     siteName: 'Jersey Proper',
     type: 'website',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://jerseyproper.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Jersey Proper',
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Jersey Proper',
     description: 'Premium digital experiences for businesses that refuse to blend in.',
-    images: ['/og-image.png'],
+    images: ['https://jerseyproper.com/og-image.png'],
   },
 }
 
