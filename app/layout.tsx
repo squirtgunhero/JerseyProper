@@ -38,6 +38,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta property="og:image" content="https://jerseyproper.com/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Jersey Proper" />
+        <meta name="twitter:image" content="https://jerseyproper.com/og-image.png" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
