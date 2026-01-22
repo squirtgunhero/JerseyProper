@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://jersey-proper.vercel.app/og-image.png',
+        url: 'https://jersey-proper.vercel.app/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Jersey Proper',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Jersey Proper',
     description: 'Premium digital experiences for businesses that refuse to blend in.',
-    images: ['https://jersey-proper.vercel.app/og-image.png'],
+    images: ['https://jersey-proper.vercel.app/og-image.jpg'],
   },
 }
 
@@ -38,12 +38,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta property="og:image" content="https://jersey-proper.vercel.app/og-image.png" />
-        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image" content="https://jersey-proper.vercel.app/og-image.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Jersey Proper" />
-        <meta name="twitter:image" content="https://jersey-proper.vercel.app/og-image.png" />
+        <meta name="twitter:image" content="https://jersey-proper.vercel.app/og-image.jpg" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
