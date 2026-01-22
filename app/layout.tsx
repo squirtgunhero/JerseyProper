@@ -3,19 +3,19 @@ import './globals.css'
 import ScrollToTop from '@/components/ScrollToTop'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://jerseyproper.com'),
+  metadataBase: new URL('https://jersey-proper.vercel.app'),
   title: 'Jersey Proper',
   description: 'Premium digital experiences for businesses that refuse to blend in. Brand identity, web design, and lead generation for visionary brands.',
   keywords: ['creative studio', 'brand identity', 'web design', 'lead generation', 'premium', 'boutique agency'],
   openGraph: {
     title: 'Jersey Proper',
     description: 'Premium digital experiences for businesses that refuse to blend in.',
-    url: 'https://jerseyproper.com',
+    url: 'https://jersey-proper.vercel.app',
     siteName: 'Jersey Proper',
     type: 'website',
     images: [
       {
-        url: 'https://jerseyproper.com/og-image.png',
+        url: 'https://jersey-proper.vercel.app/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Jersey Proper',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Jersey Proper',
     description: 'Premium digital experiences for businesses that refuse to blend in.',
-    images: ['https://jerseyproper.com/og-image.png'],
+    images: ['https://jersey-proper.vercel.app/og-image.png'],
   },
 }
 
@@ -38,11 +38,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta property="og:image" content="https://jerseyproper.com/og-image.png" />
+        <meta property="og:image" content="https://jersey-proper.vercel.app/og-image.png" />
+        <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Jersey Proper" />
-        <meta name="twitter:image" content="https://jerseyproper.com/og-image.png" />
+        <meta name="twitter:image" content="https://jersey-proper.vercel.app/og-image.png" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
