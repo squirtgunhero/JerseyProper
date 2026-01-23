@@ -42,12 +42,12 @@ export default function Navigation() {
           <a href="#" className="relative z-10">
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="flex items-center gap-1"
+              className="flex items-center gap-0.5 sm:gap-1"
             >
-              <span className="font-display text-xl tracking-luxury uppercase text-cream">
+              <span className="font-display text-base sm:text-xl tracking-[0.1em] sm:tracking-luxury uppercase text-cream">
                 Jersey
               </span>
-              <span className="font-display text-xl tracking-luxury uppercase gold-text-static">
+              <span className="font-display text-base sm:text-xl tracking-[0.1em] sm:tracking-luxury uppercase gold-text-static">
                 Proper
               </span>
             </motion.div>

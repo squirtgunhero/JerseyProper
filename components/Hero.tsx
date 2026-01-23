@@ -8,8 +8,8 @@ export default function Hero() {
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-jp-deep/50 via-transparent to-jp-black/80" />
       
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Decorative elements - hidden on mobile */}
+      <div className="hidden sm:block absolute inset-0 overflow-hidden">
         {/* Corner lines */}
         <div className="absolute top-8 left-8 w-24 h-px bg-gradient-to-r from-gold/30 to-transparent" />
         <div className="absolute top-8 left-8 w-px h-24 bg-gradient-to-b from-gold/30 to-transparent" />
