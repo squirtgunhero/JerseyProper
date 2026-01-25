@@ -6,10 +6,10 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'Blog | Jersey Proper',
+  title: 'Notes | Jersey Proper',
   description: 'Insights on branding, web design, and growing your business with premium digital experiences.',
   openGraph: {
-    title: 'Blog | Jersey Proper',
+    title: 'Notes | Jersey Proper',
     description: 'Insights on branding, web design, and growing your business with premium digital experiences.',
   },
 }
