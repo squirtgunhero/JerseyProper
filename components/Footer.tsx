@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="py-12 bg-jp-black border-t border-gold/10">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="flex flex-col items-center gap-8 text-center">
           {/* Logo */}
           <div className="flex items-center gap-1">
             <span className="font-display text-lg tracking-luxury uppercase text-cream">
@@ -16,7 +16,7 @@ export default function Footer() {
           </div>
 
           {/* Links */}
-          <div className="flex items-center gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-8">
             <a href="#services" className="text-cream/40 hover:text-gold text-sm tracking-wide transition-colors">
               Services
             </a>
