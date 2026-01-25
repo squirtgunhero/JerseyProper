@@ -6,6 +6,7 @@ import type {
   JsonLdObject,
   FetchResult 
 } from './types'
+import { AEO_CONFIG } from '../config/aeo'
 
 const NOISE_SELECTORS = [
   'header', 'nav', 'footer', 'aside', 'script', 'style', 
@@ -85,6 +86,7 @@ function isSocialShareDomain(url: string): boolean {
 }
 
 export function extractContent(fetchResult: FetchResult): PageExtraction {
+  const warnings: string[] = [...(fetchResult.warnings || [])]
   const $ = cheerio.load(fetchResult.html)
   const baseUrl = fetchResult.url
 
@@ -178,7 +180,17 @@ export function extractContent(fetchResult: FetchResult): PageExtraction {
   const $main = candidates.length > 0 ? candidates[0].element : $clean('body')
 
   // Extract main text
-  const mainText = $main.text().replace(/\s+/g, ' ').trim()
+  let mainText = $main.text().replace(/\s+/g, ' ').trim()
+  
+  // Truncate mainText if it exceeds the configured limit
+  if (mainText.length > AEO_CONFIG.MAX_TEXT_CHARS) {
+    mainText = mainText.slice(0, AEO_CONFIG.MAX_TEXT_CHARS)
+    warnings.push(
+      `Content truncated for safety (>${AEO_CONFIG.MAX_TEXT_CHARS} chars); results may be incomplete.`
+    )
+    console.log(`[Extract] Text truncated to ${AEO_CONFIG.MAX_TEXT_CHARS} chars for ${baseUrl}`)
+  }
+  
   const wordCount = countWords(mainText)
   
   // Top text (first ~1200 words)
@@ -246,6 +258,7 @@ export function extractContent(fetchResult: FetchResult): PageExtraction {
     sentenceStats,
     fetchType: 'raw',
     isJsShell,
+    warnings,
   }
 }
 

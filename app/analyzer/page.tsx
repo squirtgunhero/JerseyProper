@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowRight, Loader2, ExternalLink, Clock, CheckCircle, XCircle } from 'lucide-react'
+import { ArrowRight, Loader2, ExternalLink, Clock, CheckCircle, XCircle, AlertTriangle } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 
@@ -16,12 +16,18 @@ interface AuditListItem {
   status: string
 }
 
+interface ErrorInfo {
+  message: string
+  code?: 'RATE_LIMITED' | 'DOMAIN_LIMITED' | string
+  isRateLimited: boolean
+}
+
 export default function AnalyzerPage() {
   const router = useRouter()
   const [url, setUrl] = useState('')
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<ErrorInfo | null>(null)
   const [recentAudits, setRecentAudits] = useState<AuditListItem[]>([])
 
   useEffect(() => {
@@ -55,12 +61,25 @@ export default function AnalyzerPage() {
       const data = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.error || 'Failed to run audit')
+        // Handle rate limiting errors
+        if (res.status === 429) {
+          setError({
+            message: data.message || 'Rate limit exceeded',
+            code: data.code,
+            isRateLimited: true,
+          })
+          setLoading(false)
+          return
+        }
+        throw new Error(data.error || data.message || 'Failed to run audit')
       }
 
       router.push(`/analyzer/audit/${data.id}`)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
+      setError({
+        message: err instanceof Error ? err.message : 'An error occurred',
+        isRateLimited: false,
+      })
       setLoading(false)
     }
   }
@@ -149,8 +168,32 @@ export default function AnalyzerPage() {
               </div>
 
               {error && (
-                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
-                  <p className="text-red-400 text-sm">{error}</p>
+                <div className={`p-4 rounded-lg ${
+                  error.isRateLimited 
+                    ? 'bg-yellow-500/10 border border-yellow-500/20' 
+                    : 'bg-red-500/10 border border-red-500/20'
+                }`}>
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
+                      error.isRateLimited ? 'text-yellow-400' : 'text-red-400'
+                    }`} />
+                    <div>
+                      <p className={`text-sm font-medium ${
+                        error.isRateLimited ? 'text-yellow-400' : 'text-red-400'
+                      }`}>
+                        {error.message}
+                      </p>
+                      {error.isRateLimited && (
+                        <p className="text-sm text-white/50 mt-1">
+                          {error.code === 'RATE_LIMITED' 
+                            ? 'You can try again within an hour.'
+                            : error.code === 'DOMAIN_LIMITED'
+                            ? 'Try again tomorrow or scan a different domain.'
+                            : 'Please wait before trying again.'}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
               )}
 

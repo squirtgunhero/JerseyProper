@@ -2,15 +2,40 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/db'
-import { fetchPage } from '@/lib/fetch'
+import { fetchPage, FetchError } from '@/lib/fetch'
 import { extractContent } from '@/lib/extract'
 import { scoreExtraction, formatModuleScores } from '@/lib/score'
 import { analyzeQuery } from '@/lib/query'
+import { 
+  checkAbuseLimits, 
+  recordUsageEvent, 
+  AbuseGuardError 
+} from '@/lib/guards/abuse'
 
 const CreateAuditSchema = z.object({
   url: z.string().url('Please enter a valid URL'),
   query: z.string().optional().nullable(),
 })
+
+/**
+ * Extract client IP from request headers.
+ * Vercel provides the client IP in x-forwarded-for or x-real-ip headers.
+ */
+function getClientIP(request: NextRequest): string {
+  const forwarded = request.headers.get('x-forwarded-for')
+  if (forwarded) {
+    // x-forwarded-for can contain multiple IPs, take the first one
+    return forwarded.split(',')[0].trim()
+  }
+  
+  const realIP = request.headers.get('x-real-ip')
+  if (realIP) {
+    return realIP.trim()
+  }
+  
+  // Fallback for local development
+  return '127.0.0.1'
+}
 
 // POST /api/audits - Create and run audit
 export async function POST(request: NextRequest) {
@@ -26,6 +51,31 @@ export async function POST(request: NextRequest) {
     }
 
     const { url, query } = parsed.data
+    const clientIP = getClientIP(request)
+
+    // Check abuse limits BEFORE doing any work
+    const limitCheck = await checkAbuseLimits({ ip: clientIP, url })
+    
+    if (!limitCheck.allowed) {
+      const error = limitCheck.error!
+      console.log(`[API] Request blocked: ${error.code} for IP hash ${limitCheck.ipHash.slice(0, 8)}...`)
+      
+      return NextResponse.json(
+        { 
+          code: error.code, 
+          message: error.message 
+        },
+        { status: error.code === 'CONFIG_ERROR' ? 500 : 429 }
+      )
+    }
+
+    // Record usage event BEFORE starting the audit
+    // This prevents parallel requests from bypassing the limit
+    await recordUsageEvent({
+      ipHash: limitCheck.ipHash,
+      domain: limitCheck.domain,
+      path: limitCheck.path,
+    })
 
     // Create audit record
     const audit = await prisma.audit.create({
@@ -36,15 +86,28 @@ export async function POST(request: NextRequest) {
       },
     })
 
+    // Update usage event with audit ID
+    // (optional, but useful for debugging)
+    await prisma.usageEvent.updateMany({
+      where: {
+        ipHash: limitCheck.ipHash,
+        domain: limitCheck.domain,
+        auditId: null,
+      },
+      data: {
+        auditId: audit.id,
+      },
+    })
+
     try {
-      // Fetch page
+      // Fetch page with all guards (timeout, size limits, redirect limits)
       const fetchResult = await fetchPage(url)
       
       if (fetchResult.statusCode !== 200) {
         throw new Error(`Failed to fetch page: HTTP ${fetchResult.statusCode}`)
       }
 
-      // Extract content
+      // Extract content (includes text truncation if needed)
       const extraction = extractContent(fetchResult)
 
       // Store extraction (cast arrays/objects to JSON for Prisma)
@@ -73,6 +136,7 @@ export async function POST(request: NextRequest) {
           responseHeaders: toJson(extraction.responseHeaders),
           linkDensity: extraction.linkDensity,
           sentenceStats: toJson(extraction.sentenceStats),
+          warnings: extraction.warnings.length > 0 ? toJson(extraction.warnings) : Prisma.JsonNull,
         },
       })
 
@@ -104,25 +168,44 @@ export async function POST(request: NextRequest) {
         url: updatedAudit.url,
         status: updatedAudit.status,
         overallScore: updatedAudit.overallScore,
+        warnings: extraction.warnings,
       })
 
     } catch (error) {
+      // Handle specific error types
+      let errorMessage = 'Unknown error'
+      
+      if (error instanceof FetchError) {
+        console.log(`[API] Fetch error for ${url}: ${error.code} - ${error.message}`)
+        errorMessage = error.message
+      } else if (error instanceof Error) {
+        errorMessage = error.message
+      }
+
       // Update audit with error
       await prisma.audit.update({
         where: { id: audit.id },
         data: {
           status: 'failed',
-          error: error instanceof Error ? error.message : 'Unknown error',
+          error: errorMessage,
         },
       })
 
       return NextResponse.json(
-        { error: error instanceof Error ? error.message : 'Audit failed' },
+        { error: errorMessage },
         { status: 500 }
       )
     }
 
   } catch (error) {
+    // Handle abuse guard errors at the top level
+    if (error instanceof AbuseGuardError) {
+      return NextResponse.json(
+        { code: error.code, message: error.message },
+        { status: error.code === 'CONFIG_ERROR' ? 500 : 429 }
+      )
+    }
+
     console.error('Audit error:', error)
     return NextResponse.json(
       { error: 'Failed to create audit' },

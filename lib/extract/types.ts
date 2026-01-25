@@ -37,6 +37,7 @@ export interface PageExtraction {
   sentenceStats: SentenceStats
   fetchType: 'raw' | 'rendered'
   isJsShell: boolean
+  warnings: string[]
 }
 
 export interface FetchResult {
@@ -44,4 +45,6 @@ export interface FetchResult {
   headers: Record<string, string>
   statusCode: number
   url: string
+  warnings: string[]
+  truncated: boolean
 }

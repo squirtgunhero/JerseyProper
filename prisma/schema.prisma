@@ -52,6 +52,20 @@ model PageExtract {
   responseHeaders    Json?
   linkDensity        Float?
   sentenceStats      Json?    // {avgLength, count, etc.}
+  warnings           Json?    // Array of warning messages (e.g., truncation)
 
   @@index([auditId])
+}
+
+// Usage tracking for abuse prevention
+model UsageEvent {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  ipHash    String   // SHA-256 hash of IP + salt, never raw IP
+  domain    String   // Domain being scanned
+  path      String?  // Optional: requested URL path
+  auditId   String?  // Optional: link to audit if created
+
+  @@index([createdAt, ipHash])
+  @@index([createdAt, domain])
 }

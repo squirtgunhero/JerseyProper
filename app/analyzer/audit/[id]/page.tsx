@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { 
   ArrowLeft, Download, CheckCircle, AlertTriangle, XCircle, 
-  Check, ExternalLink, Loader2, Target, FileText, MessageSquare
+  Check, ExternalLink, Loader2, Target, FileText, MessageSquare, Shield
 } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -28,6 +28,10 @@ interface ModuleScore {
   grade: string
 }
 
+interface PageExtract {
+  warnings: string[] | null
+}
+
 interface AuditData {
   id: string
   url: string
@@ -41,6 +45,7 @@ interface AuditData {
   suggestedFaqs: string[] | null
   status: string
   error: string | null
+  pageExtracts?: PageExtract[]
 }
 
 const MODULE_NAMES: Record<string, string> = {
@@ -214,6 +219,27 @@ export default function AuditResultPage() {
               )}
             </button>
           </div>
+
+          {/* Safety Limits Warning */}
+          {audit.pageExtracts?.[0]?.warnings && audit.pageExtracts[0].warnings.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl"
+            >
+              <div className="flex items-start gap-3">
+                <Shield className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-yellow-400 text-sm font-medium mb-1">Safety limits applied</p>
+                  <ul className="text-white/60 text-sm space-y-1">
+                    {audit.pageExtracts[0].warnings.map((warning, i) => (
+                      <li key={i}>{warning}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           {/* Overall Score */}
           <motion.div
