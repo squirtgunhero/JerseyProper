@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Audit {
+  id             String   @id @default(cuid())
+  url            String
+  query          String?
+  createdAt      DateTime @default(now())
+  overallScore   Int?
+  moduleScores   Json?
+  ruleResults    Json?
+  queryFitScore  Int?
+  answerDraft    String?
+  suggestedFaqs  Json?
+  status         String   @default("pending") // pending, processing, completed, failed
+  error          String?
+
+  pageExtracts   PageExtract[]
+
+  @@index([createdAt])
+  @@index([status])
+}
+
+model PageExtract {
+  id                 String   @id @default(cuid())
+  auditId            String
+  audit              Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  fetchedAt          DateTime @default(now())
+  fetchType          String   // raw, rendered
+  title              String?
+  description        String?
+  canonical          String?
+  h1                 String?
+  headings           Json?    // Array of {level, text}
+  mainText           String?
+  topText            String?
+  wordCount          Int?
+  listsCount         Int?
+  tablesCount        Int?
+  internalLinksCount Int?
+  externalLinksCount Int?
+  externalLinks      Json?    // Array of URLs
+  jsonLd             Json?    // Array of parsed JSON-LD objects
+  robotsMeta         String?
+  responseHeaders    Json?
+  linkDensity        Float?
+  sentenceStats      Json?    // {avgLength, count, etc.}
+
+  @@index([auditId])
+}

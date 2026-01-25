@@ -12,6 +12,7 @@ const navLinks = [
   { name: 'Process', href: '#process', isAnchor: true },
   { name: 'About', href: '#about', isAnchor: true },
   { name: 'Notes', href: '/notes', isAnchor: false },
+  { name: 'Analyzer', href: '/analyzer', isAnchor: false },
   { name: 'Contact', href: '#contact', isAnchor: true },
 ]
 
@@ -70,10 +71,7 @@ export default function Navigation() {
                 <a
                   key={link.name}
                   href={getHref(link)}
-                  className={clsx(
-                    "text-cream/70 hover:text-gold transition-colors text-sm tracking-widest uppercase font-light",
-                    pathname === '/notes' && link.name === 'Notes' && "text-gold-primary"
-                  )}
+                  className="text-cream/70 hover:text-gold transition-colors text-sm tracking-widest uppercase font-light"
                 >
                   {link.name}
                 </a>
@@ -83,7 +81,7 @@ export default function Navigation() {
                   href={link.href}
                   className={clsx(
                     "text-cream/70 hover:text-gold transition-colors text-sm tracking-widest uppercase font-light",
-                    pathname?.startsWith('/notes') && link.name === 'Notes' && "text-gold-primary"
+                    pathname?.startsWith(link.href) && "text-gold-primary"
                   )}
                 >
                   {link.name}

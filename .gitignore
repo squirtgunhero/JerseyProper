@@ -1,5 +1,18 @@
 node_modules
 .next
 .vercel
+.env
 .env.local
 .env*.local
+
+# Prisma
+/lib/generated/prisma
+prisma/*.db
+
+# IDE
+.idea
+.vscode
+
+# Logs
+*.log
+npm-debug.log*
