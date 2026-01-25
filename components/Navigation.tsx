@@ -11,7 +11,7 @@ const navLinks = [
   { name: 'Services', href: '#services', isAnchor: true },
   { name: 'Process', href: '#process', isAnchor: true },
   { name: 'About', href: '#about', isAnchor: true },
-  { name: 'Notes', href: '/blog', isAnchor: false },
+  { name: 'Notes', href: '/notes', isAnchor: false },
   { name: 'Contact', href: '#contact', isAnchor: true },
 ]
 
@@ -72,7 +72,7 @@ export default function Navigation() {
                   href={getHref(link)}
                   className={clsx(
                     "text-cream/70 hover:text-gold transition-colors text-sm tracking-widest uppercase font-light",
-                    pathname === '/blog' && link.name === 'Notes' && "text-gold-primary"
+                    pathname === '/notes' && link.name === 'Notes' && "text-gold-primary"
                   )}
                 >
                   {link.name}
@@ -83,7 +83,7 @@ export default function Navigation() {
                   href={link.href}
                   className={clsx(
                     "text-cream/70 hover:text-gold transition-colors text-sm tracking-widest uppercase font-light",
-                    pathname?.startsWith('/blog') && link.name === 'Notes' && "text-gold-primary"
+                    pathname?.startsWith('/notes') && link.name === 'Notes' && "text-gold-primary"
                   )}
                 >
                   {link.name}

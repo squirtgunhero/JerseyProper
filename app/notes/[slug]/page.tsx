@@ -37,8 +37,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${post.title} | Jersey Proper Blog`,
-    description: post.excerpt || `Read ${post.title} on the Jersey Proper blog.`,
+    title: `${post.title} | Jersey Proper Notes`,
+    description: post.excerpt || `Read ${post.title} on Jersey Proper Notes.`,
     openGraph: {
       title: post.title,
       description: post.excerpt,
@@ -72,11 +72,11 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="max-w-4xl mx-auto px-6">
           {/* Back Link */}
           <Link
-            href="/blog"
+            href="/notes"
             className="inline-flex items-center gap-2 text-cream/60 hover:text-gold-primary transition-colors duration-300 mb-12 group"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-            <span className="text-sm uppercase tracking-wider">Back to Journal</span>
+            <span className="text-sm uppercase tracking-wider">Back to Notes</span>
           </Link>
 
           {/* Header */}

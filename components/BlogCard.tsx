@@ -41,7 +41,7 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
       viewport={{ once: true }}
       className="group relative"
     >
-      <Link href={`/blog/${post.slug.current}`}>
+      <Link href={`/notes/${post.slug.current}`}>
         <div className="relative overflow-hidden rounded-sm border border-gold-primary/20 bg-jp-deep transition-all duration-500 hover:border-gold-primary/50">
           {/* Image */}
           <div className="relative aspect-[16/10] overflow-hidden">
