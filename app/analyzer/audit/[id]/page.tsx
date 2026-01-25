@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useEffect, use } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { 
   ArrowLeft, Download, CheckCircle, AlertTriangle, XCircle, 
-  Copy, Check, ExternalLink, Loader2, Target, FileText, MessageSquare
+  Check, ExternalLink, Loader2, Target, FileText, MessageSquare
 } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -52,8 +52,9 @@ const MODULE_NAMES: Record<string, string> = {
   F: 'Citation likelihood',
 }
 
-export default function AuditResultPage({ params }: { params: Promise<{ id: string }> }) {
-  const resolvedParams = use(params)
+export default function AuditResultPage() {
+  const params = useParams()
+  const id = params.id as string
   const router = useRouter()
   const [audit, setAudit] = useState<AuditData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -63,12 +64,15 @@ export default function AuditResultPage({ params }: { params: Promise<{ id: stri
   const [expandedRule, setExpandedRule] = useState<string | null>(null)
 
   useEffect(() => {
-    fetchAudit()
-  }, [resolvedParams.id])
+    if (id) {
+      fetchAudit()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
 
   async function fetchAudit() {
     try {
-      const res = await fetch(`/api/audits/${resolvedParams.id}`)
+      const res = await fetch(`/api/audits/${id}`)
       if (!res.ok) {
         throw new Error('Audit not found')
       }
