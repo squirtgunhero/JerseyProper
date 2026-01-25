@@ -1,1 +1,1 @@
-# JerseyProper
+# JerseyProper# Sanity Blog Integration
