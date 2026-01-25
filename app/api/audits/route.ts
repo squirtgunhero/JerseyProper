@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
+import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/db'
 import { fetchPage } from '@/lib/fetch'
 import { extractContent } from '@/lib/extract'
@@ -46,7 +47,10 @@ export async function POST(request: NextRequest) {
       // Extract content
       const extraction = extractContent(fetchResult)
 
-      // Store extraction
+      // Store extraction (cast arrays/objects to JSON for Prisma)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const toJson = (val: unknown) => JSON.parse(JSON.stringify(val)) as Prisma.InputJsonValue
+      
       await prisma.pageExtract.create({
         data: {
           auditId: audit.id,
@@ -55,7 +59,7 @@ export async function POST(request: NextRequest) {
           description: extraction.description,
           canonical: extraction.canonical,
           h1: extraction.h1,
-          headings: extraction.headings,
+          headings: toJson(extraction.headings),
           mainText: extraction.mainText,
           topText: extraction.topText,
           wordCount: extraction.wordCount,
@@ -63,12 +67,12 @@ export async function POST(request: NextRequest) {
           tablesCount: extraction.tablesCount,
           internalLinksCount: extraction.internalLinksCount,
           externalLinksCount: extraction.externalLinksCount,
-          externalLinks: extraction.externalLinks,
-          jsonLd: extraction.jsonLd,
+          externalLinks: toJson(extraction.externalLinks),
+          jsonLd: toJson(extraction.jsonLd),
           robotsMeta: extraction.robotsMeta,
-          responseHeaders: extraction.responseHeaders,
+          responseHeaders: toJson(extraction.responseHeaders),
           linkDensity: extraction.linkDensity,
-          sentenceStats: extraction.sentenceStats,
+          sentenceStats: toJson(extraction.sentenceStats),
         },
       })
 
@@ -87,11 +91,11 @@ export async function POST(request: NextRequest) {
         data: {
           status: 'completed',
           overallScore: scoring.overallScore,
-          moduleScores: formatModuleScores(scoring.modules),
-          ruleResults: scoring.allRules,
-          queryFitScore: queryAnalysis?.queryFitScore || null,
-          answerDraft: queryAnalysis?.answerDraft || null,
-          suggestedFaqs: queryAnalysis?.suggestedFaqs || null,
+          moduleScores: toJson(formatModuleScores(scoring.modules)),
+          ruleResults: toJson(scoring.allRules),
+          queryFitScore: queryAnalysis?.queryFitScore ?? null,
+          answerDraft: queryAnalysis?.answerDraft ?? null,
+          suggestedFaqs: queryAnalysis?.suggestedFaqs ? toJson(queryAnalysis.suggestedFaqs) : Prisma.JsonNull,
         },
       })
 

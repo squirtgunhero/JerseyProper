@@ -28,7 +28,8 @@ const MAIN_CANDIDATES = [
 ]
 
 interface CandidateScore {
-  element: cheerio.Cheerio<cheerio.Element>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  element: any
   score: number
 }
 
@@ -97,16 +98,19 @@ export function extractContent(fetchResult: FetchResult): PageExtraction {
   // Extract headings
   const headings: Heading[] = []
   $('h1, h2, h3, h4, h5, h6').each((_, el) => {
-    const level = parseInt(el.tagName.slice(1), 10)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const tagName = (el as any).tagName || (el as any).name || ''
+    const level = parseInt(tagName.slice(1), 10) || 0
     const text = $(el).text().trim()
-    if (text) {
+    if (text && level > 0) {
       headings.push({ level, text })
     }
   })
 
   // Extract JSON-LD
   const jsonLd: JsonLdObject[] = []
-  $('script[type="application/ld+json"]').each((_, el) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  $('script[type="application/ld+json"]').each((_: number, el: any) => {
     const raw = $(el).html()?.trim() || ''
     let parsed: Record<string, unknown> | null = null
     let type: string | null = null
@@ -132,7 +136,8 @@ export function extractContent(fetchResult: FetchResult): PageExtraction {
   const candidates: CandidateScore[] = []
   
   MAIN_CANDIDATES.forEach(selector => {
-    $clean(selector).each((_, el) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    $clean(selector).each((_: number, el: any) => {
       const $el = $clean(el)
       const text = $el.text()
       const words = countWords(text)
@@ -141,7 +146,8 @@ export function extractContent(fetchResult: FetchResult): PageExtraction {
       
       // Calculate link density penalty
       let anchorWords = 0
-      $el.find('a').each((_, a) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      $el.find('a').each((_: number, a: any) => {
         anchorWords += countWords($clean(a).text())
       })
       const linkDensityPenalty = words > 0 ? (anchorWords / words) * 200 : 0
@@ -156,7 +162,8 @@ export function extractContent(fetchResult: FetchResult): PageExtraction {
 
   // Fallback to body children if no candidates
   if (candidates.length === 0) {
-    $clean('body').children().each((_, el) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    $clean('body').children().each((_: number, el: any) => {
       const $el = $clean(el)
       const text = $el.text()
       const words = countWords(text)
@@ -186,7 +193,8 @@ export function extractContent(fetchResult: FetchResult): PageExtraction {
   const internalLinks: string[] = []
   const externalLinks: string[] = []
   
-  $main.find('a[href]').each((_, el) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  $main.find('a[href]').each((_: number, el: any) => {
     const href = $clean(el).attr('href')
     if (!href) return
     
@@ -204,7 +212,8 @@ export function extractContent(fetchResult: FetchResult): PageExtraction {
 
   // Calculate link density
   let anchorTextWords = 0
-  $main.find('a').each((_, a) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  $main.find('a').each((_: number, a: any) => {
     anchorTextWords += countWords($clean(a).text())
   })
   const linkDensity = wordCount > 0 ? anchorTextWords / wordCount : 0
