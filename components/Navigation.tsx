@@ -1,20 +1,25 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import clsx from 'clsx'
 
 const navLinks = [
-  { name: 'Services', href: '#services' },
-  { name: 'Process', href: '#process' },
-  { name: 'About', href: '#about' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Services', href: '#services', isAnchor: true },
+  { name: 'Process', href: '#process', isAnchor: true },
+  { name: 'About', href: '#about', isAnchor: true },
+  { name: 'Blog', href: '/blog', isAnchor: false },
+  { name: 'Contact', href: '#contact', isAnchor: true },
 ]
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const isHomePage = pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +28,11 @@ export default function Navigation() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const getHref = (link: typeof navLinks[0]) => {
+    if (!link.isAnchor) return link.href
+    return isHomePage ? link.href : `/${link.href}`
+  }
 
   return (
     <>
@@ -39,7 +49,7 @@ export default function Navigation() {
       >
         <nav className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="relative z-10">
+          <Link href="/" className="relative z-10">
             <motion.div
               whileHover={{ scale: 1.02 }}
               className="flex items-center gap-0.5 sm:gap-1"
@@ -51,21 +61,37 @@ export default function Navigation() {
                 Proper
               </span>
             </motion.div>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-cream/70 hover:text-gold transition-colors text-sm tracking-widest uppercase font-light"
-              >
-                {link.name}
-              </a>
+              link.isAnchor ? (
+                <a
+                  key={link.name}
+                  href={getHref(link)}
+                  className={clsx(
+                    "text-cream/70 hover:text-gold transition-colors text-sm tracking-widest uppercase font-light",
+                    pathname === '/blog' && link.name === 'Blog' && "text-gold-primary"
+                  )}
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={clsx(
+                    "text-cream/70 hover:text-gold transition-colors text-sm tracking-widest uppercase font-light",
+                    pathname?.startsWith('/blog') && link.name === 'Blog' && "text-gold-primary"
+                  )}
+                >
+                  {link.name}
+                </Link>
+              )
             ))}
             <motion.a
-              href="#contact"
+              href={isHomePage ? "#contact" : "/#contact"}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="btn-gold text-xs"
@@ -98,23 +124,40 @@ export default function Navigation() {
         >
           <div className="flex flex-col gap-8">
             {navLinks.map((link, i) => (
-              <motion.a
-                key={link.name}
-                href={link.href}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="font-display text-3xl tracking-luxury uppercase text-cream hover:text-gold transition-colors"
-              >
-                {link.name}
-              </motion.a>
+              link.isAnchor ? (
+                <motion.a
+                  key={link.name}
+                  href={getHref(link)}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="font-display text-3xl tracking-luxury uppercase text-cream hover:text-gold transition-colors"
+                >
+                  {link.name}
+                </motion.a>
+              ) : (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="font-display text-3xl tracking-luxury uppercase text-cream hover:text-gold transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              )
             ))}
             <motion.a
-              href="#contact"
+              href={isHomePage ? "#contact" : "/#contact"}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.5 }}
               onClick={() => setIsMobileMenuOpen(false)}
               className="btn-gold inline-block text-center mt-4"
             >
