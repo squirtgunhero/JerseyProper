@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
@@ -36,6 +37,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@types/babel__generator": "^7.27.0",
+    "@types/babel__template": "^7.4.4",
     "@types/cheerio": "^0.22.35",
     "@types/node": "^22.0.0",
     "@types/react": "^18.3.0",
