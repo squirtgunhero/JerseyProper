@@ -1,34 +1,92 @@
 import type { Metadata } from 'next'
+import { Outfit } from 'next/font/google'
+import { Bodoni_Moda } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import ScrollToTop from '@/components/ScrollToTop'
+import JsonLd from '@/components/JsonLd'
+import { siteConfig } from '@/lib/config/site'
+import {
+  generateOrganizationSchema,
+  generateWebSiteSchema,
+  generateFounderSchema,
+  combineSchemas,
+} from '@/lib/structured-data'
+
+/**
+ * PERFORMANCE OPTIMIZATIONS:
+ * 1. next/font for optimal font loading (no render-blocking)
+ * 2. next/script for deferred analytics loading
+ * 3. Preload hints for LCP image
+ * 4. font-display: swap for faster text rendering
+ */
+
+// Load fonts with next/font for optimal performance
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-outfit',
+  display: 'swap',
+  preload: true,
+})
+
+const bodoniModa = Bodoni_Moda({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-bodoni',
+  display: 'swap',
+  preload: true,
+})
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://jersey-proper.vercel.app'),
-  title: 'Jersey Proper',
-  description: 'Premium digital experiences for businesses that refuse to blend in. Brand identity, web design, and lead generation for visionary brands.',
-  keywords: ['creative studio', 'brand identity', 'web design', 'lead generation', 'premium', 'boutique agency'],
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: siteConfig.founder.name }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
   openGraph: {
-    title: 'Jersey Proper',
-    description: 'Premium digital experiences for businesses that refuse to blend in.',
-    url: 'https://jersey-proper.vercel.app',
-    siteName: 'Jersey Proper',
+    title: siteConfig.name,
+    description: siteConfig.tagline,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
     type: 'website',
+    locale: 'en_US',
     images: [
       {
-        url: 'https://jersey-proper.vercel.app/og-image.jpg',
+        url: `${siteConfig.url}/og-image.jpg`,
         width: 1024,
         height: 535,
-        alt: 'Jersey Proper',
+        alt: siteConfig.name,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jersey Proper',
-    description: 'Premium digital experiences for businesses that refuse to blend in.',
-    images: ['https://jersey-proper.vercel.app/og-image.jpg'],
+    title: siteConfig.name,
+    description: siteConfig.tagline,
+    images: [`${siteConfig.url}/og-image.jpg`],
+  },
+  alternates: {
+    canonical: siteConfig.url,
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 }
+
+// Generate site-wide structured data
+const siteStructuredData = combineSchemas(
+  generateOrganizationSchema(),
+  generateWebSiteSchema(),
+  generateFounderSchema()
+)
 
 export default function RootLayout({
   children,
@@ -36,21 +94,40 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${outfit.variable} ${bodoniModa.variable}`}>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if (typeof window !== 'undefined') {
-                window.history.scrollRestoration = 'manual';
-              }
-            `,
-          }}
+        {/* Site-wide JSON-LD structured data */}
+        <JsonLd data={siteStructuredData} />
+        
+        {/* Preload LCP image for faster rendering */}
+        <link
+          rel="preload"
+          href="/hero-bg.webp"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
         />
+        {/* DNS prefetch for external resources */}
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
       </head>
-      <body className="antialiased">
+      <body className={`${outfit.className} antialiased`}>
         <ScrollToTop />
         {children}
+        
+        {/* Google Analytics - loaded after page is interactive */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-3MB1YMCJDR"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-3MB1YMCJDR');
+          `}
+        </Script>
       </body>
     </html>
   )

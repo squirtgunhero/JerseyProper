@@ -48,30 +48,30 @@ export default function Navigation() {
             : 'bg-transparent py-6'
         )}
       >
-        <nav className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
+        <nav className="max-w-7xl mx-auto px-6 lg:px-8 hidden md:flex md:items-center md:justify-between">
           {/* Logo */}
           <Link href="/" className="relative z-10">
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="flex items-center gap-0.5 sm:gap-1"
+              className="flex items-center gap-1"
             >
-              <span className="font-display text-base sm:text-xl tracking-[0.1em] sm:tracking-luxury uppercase text-cream">
+              <span className="font-display text-xl tracking-luxury uppercase text-cream">
                 Jersey
               </span>
-              <span className="font-display text-base sm:text-xl tracking-[0.1em] sm:tracking-luxury uppercase gold-text-static">
+              <span className="font-display text-xl tracking-luxury uppercase gold-text-static">
                 Proper
               </span>
             </motion.div>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-10">
+          <div className="flex items-center gap-10">
             {navLinks.map((link) => (
               link.isAnchor ? (
                 <a
                   key={link.name}
                   href={getHref(link)}
-                  className="text-cream/70 hover:text-gold transition-colors text-sm tracking-widest uppercase font-light"
+                  className="text-cream/70 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase font-light"
                 >
                   {link.name}
                 </a>
@@ -80,28 +80,38 @@ export default function Navigation() {
                   key={link.name}
                   href={link.href}
                   className={clsx(
-                    "text-cream/70 hover:text-gold transition-colors text-sm tracking-widest uppercase font-light",
-                    pathname?.startsWith(link.href) && "text-gold-primary"
+                    "text-cream/70 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase font-light",
+                    pathname?.startsWith(link.href) && "text-white"
                   )}
                 >
                   {link.name}
                 </Link>
               )
             ))}
-            <motion.a
-              href={isHomePage ? "#contact" : "/#contact"}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="btn-gold text-xs"
-            >
-              Start a Project
-            </motion.a>
           </div>
+        </nav>
+
+        {/* Mobile Nav */}
+        <nav className="md:hidden max-w-7xl mx-auto px-6 flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="relative z-10">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="flex items-center gap-0.5"
+            >
+              <span className="font-display text-base tracking-[0.1em] uppercase text-cream">
+                Jersey
+              </span>
+              <span className="font-display text-base tracking-[0.1em] uppercase gold-text-static">
+                Proper
+              </span>
+            </motion.div>
+          </Link>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden relative z-10 p-2 text-cream"
+            className="relative z-10 p-2 text-cream"
           >
             {isMobileMenuOpen ? (
               <X className="w-6 h-6" />
@@ -120,7 +130,7 @@ export default function Navigation() {
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-40 bg-jp-black pt-24 px-6 md:hidden"
         >
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
             {navLinks.map((link, i) => (
               link.isAnchor ? (
                 <motion.a
@@ -128,9 +138,9 @@ export default function Navigation() {
                   href={getHref(link)}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.08 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="font-display text-3xl tracking-luxury uppercase text-cream hover:text-gold transition-colors"
+                  className="font-display text-2xl tracking-luxury uppercase text-cream hover:text-white transition-colors duration-300"
                 >
                   {link.name}
                 </motion.a>
@@ -139,28 +149,18 @@ export default function Navigation() {
                   key={link.name}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.08 }}
                 >
                   <Link
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="font-display text-3xl tracking-luxury uppercase text-cream hover:text-gold transition-colors"
+                    className="font-display text-2xl tracking-luxury uppercase text-cream hover:text-white transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
                 </motion.div>
               )
             ))}
-            <motion.a
-              href={isHomePage ? "#contact" : "/#contact"}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5 }}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="btn-gold inline-block text-center mt-4"
-            >
-              Start a Project
-            </motion.a>
           </div>
         </motion.div>
       )}

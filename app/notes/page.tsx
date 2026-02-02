@@ -4,15 +4,42 @@ import { postsQuery, categoriesQuery } from '@/sanity/lib/queries'
 import BlogCard from '@/components/BlogCard'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import JsonLd from '@/components/JsonLd'
+import { siteConfig, getAbsoluteUrl } from '@/lib/config/site'
+import {
+  generateWebPageSchema,
+  generateBlogSchema,
+  combineSchemas,
+} from '@/lib/structured-data'
+
+const pageTitle = 'The Journal'
+const pageDescription = 'Insights on branding, web design, and growing your business with premium digital experiences.'
 
 export const metadata: Metadata = {
-  title: 'Notes | Jersey Proper',
-  description: 'Insights on branding, web design, and growing your business with premium digital experiences.',
+  title: pageTitle,
+  description: pageDescription,
+  alternates: {
+    canonical: getAbsoluteUrl('/notes'),
+  },
   openGraph: {
-    title: 'Notes | Jersey Proper',
-    description: 'Insights on branding, web design, and growing your business with premium digital experiences.',
+    title: `${pageTitle} | ${siteConfig.name}`,
+    description: pageDescription,
+    url: getAbsoluteUrl('/notes'),
   },
 }
+
+// Generate page-specific structured data
+const notesPageSchema = combineSchemas(
+  generateWebPageSchema({
+    name: `${pageTitle} | ${siteConfig.name} Notes`,
+    description: pageDescription,
+    pathname: '/notes',
+  }),
+  generateBlogSchema()
+)
+
+// Revalidate every 60 seconds for fresh content
+export const revalidate = 60
 
 async function getPosts() {
   const posts = await client.fetch(postsQuery)
@@ -29,6 +56,14 @@ export default async function BlogPage() {
 
   return (
     <main className="min-h-screen bg-jp-black">
+      {/* Page-specific JSON-LD */}
+      <JsonLd data={notesPageSchema} />
+      
+      {/* Entity clarity statement - visually subtle, semantically important */}
+      <p className="sr-only">
+        {siteConfig.description} Read insights from {siteConfig.founder.name} and the {siteConfig.name} team on branding, web design, and digital strategy.
+      </p>
+      
       <Navigation />
       
       {/* Hero Section */}

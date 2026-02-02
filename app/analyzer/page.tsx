@@ -1,20 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowRight, Loader2, ExternalLink, Clock, CheckCircle, XCircle, AlertTriangle } from 'lucide-react'
+import { ArrowRight, Loader2, AlertTriangle } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-
-interface AuditListItem {
-  id: string
-  url: string
-  query: string | null
-  createdAt: string
-  overallScore: number | null
-  status: string
-}
 
 interface ErrorInfo {
   message: string
@@ -28,23 +19,6 @@ export default function AnalyzerPage() {
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<ErrorInfo | null>(null)
-  const [recentAudits, setRecentAudits] = useState<AuditListItem[]>([])
-
-  useEffect(() => {
-    fetchRecentAudits()
-  }, [])
-
-  async function fetchRecentAudits() {
-    try {
-      const res = await fetch('/api/audits')
-      if (res.ok) {
-        const data = await res.json()
-        setRecentAudits(data)
-      }
-    } catch {
-      // Ignore errors for recent audits
-    }
-  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -81,24 +55,6 @@ export default function AnalyzerPage() {
         isRateLimited: false,
       })
       setLoading(false)
-    }
-  }
-
-  function getScoreColor(score: number | null) {
-    if (score === null) return 'text-white/40'
-    if (score >= 80) return 'text-green-400'
-    if (score >= 60) return 'text-yellow-400'
-    return 'text-red-400'
-  }
-
-  function getStatusIcon(status: string) {
-    switch (status) {
-      case 'completed':
-        return <CheckCircle className="w-4 h-4 text-green-400" />
-      case 'failed':
-        return <XCircle className="w-4 h-4 text-red-400" />
-      default:
-        return <Loader2 className="w-4 h-4 text-white/40 animate-spin" />
     }
   }
 
@@ -218,56 +174,6 @@ export default function AnalyzerPage() {
           </motion.form>
         </div>
       </section>
-
-      {/* Recent Audits */}
-      {recentAudits.length > 0 && (
-        <section className="py-16 border-t border-white/5">
-          <div className="max-w-4xl mx-auto px-6">
-            <h2 className="text-xl font-light text-white mb-6">Recent Audits</h2>
-            
-            <div className="space-y-3">
-              {recentAudits.slice(0, 10).map((audit) => (
-                <motion.a
-                  key={audit.id}
-                  href={`/analyzer/audit/${audit.id}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-lg hover:bg-white/[0.04] hover:border-white/10 transition-all group"
-                >
-                  <div className="flex items-center gap-4 min-w-0">
-                    {getStatusIcon(audit.status)}
-                    <div className="min-w-0">
-                      <p className="text-white/80 truncate group-hover:text-white transition-colors">
-                        {audit.url}
-                      </p>
-                      {audit.query && (
-                        <p className="text-sm text-white/40 truncate">
-                          Query: {audit.query}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-6 flex-shrink-0">
-                    <div className="flex items-center gap-2 text-white/40 text-sm">
-                      <Clock className="w-4 h-4" />
-                      {new Date(audit.createdAt).toLocaleDateString()}
-                    </div>
-                    
-                    {audit.status === 'completed' && (
-                      <div className={`text-2xl font-light ${getScoreColor(audit.overallScore)}`}>
-                        {audit.overallScore}
-                      </div>
-                    )}
-                    
-                    <ExternalLink className="w-4 h-4 text-white/20 group-hover:text-white/40 transition-colors" />
-                  </div>
-                </motion.a>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       <Footer />
     </main>

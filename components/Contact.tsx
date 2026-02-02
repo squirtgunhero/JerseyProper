@@ -21,11 +21,33 @@ export default function Contact() {
     projectType: '',
     message: '',
   })
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log(formData)
+    setStatus('loading')
+    setErrorMessage('')
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to submit form')
+      }
+
+      setStatus('success')
+      setFormData({ name: '', email: '', projectType: '', message: '' })
+    } catch (error) {
+      setStatus('error')
+      setErrorMessage(error instanceof Error ? error.message : 'Something went wrong')
+    }
   }
 
   return (
@@ -138,31 +160,50 @@ export default function Contact() {
             />
           </div>
 
+          {/* Status Messages */}
+          {status === 'success' && (
+            <div className="bg-green-500/10 border border-green-500/20 rounded px-5 py-4 text-center">
+              <p className="text-green-400 font-medium">Thank you for reaching out!</p>
+              <p className="text-green-400/70 text-sm mt-1">We&apos;ll be in touch within 24 hours.</p>
+            </div>
+          )}
+
+          {status === 'error' && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded px-5 py-4 text-center">
+              <p className="text-red-400">{errorMessage}</p>
+            </div>
+          )}
+
           {/* Submit */}
           <div className="text-center pt-4">
             <motion.button
               type="submit"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="btn-gold"
+              disabled={status === 'loading' || status === 'success'}
+              whileHover={{ scale: status === 'loading' || status === 'success' ? 1 : 1.02 }}
+              whileTap={{ scale: status === 'loading' || status === 'success' ? 1 : 0.98 }}
+              className="btn-gold disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Send Message
+              {status === 'loading' ? 'Sending...' : status === 'success' ? 'Message Sent!' : 'Send Message'}
             </motion.button>
           </div>
         </motion.form>
 
-        {/* Alternative contact */}
+        {/* Alternative contact with trust signals */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-center mt-12 pt-12 border-t border-gold/10"
         >
-          <p className="text-cream/40 text-sm">
+          <p className="text-cream/40 text-sm mb-4">
             Prefer email?{' '}
             <a href="mailto:hello@jerseyproper.com" className="text-gold hover:text-gold-light transition-colors">
               hello@jerseyproper.com
             </a>
+          </p>
+          {/* Trust signal */}
+          <p className="text-cream/30 text-xs">
+            Every inquiry is personally reviewed by Michael Ehrlich, Founder & Creative Director.
           </p>
         </motion.div>
       </div>

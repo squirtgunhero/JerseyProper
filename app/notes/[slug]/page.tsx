@@ -9,7 +9,13 @@ import PortableText from '@/components/PortableText'
 import BlogCard from '@/components/BlogCard'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import JsonLd from '@/components/JsonLd'
 import { ArrowLeft } from 'lucide-react'
+import { siteConfig, getAbsoluteUrl, defaultAuthor } from '@/lib/config/site'
+import { generateBlogPostingSchema } from '@/lib/structured-data'
+
+// Revalidate every 60 seconds for fresh content
+export const revalidate = 60
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -32,17 +38,39 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   
   if (!post) {
     return {
-      title: 'Post Not Found | Jersey Proper',
+      title: 'Post Not Found',
     }
   }
 
+  const postUrl = getAbsoluteUrl(`/notes/${post.slug.current}`)
+  const authorName = post.author?.name || defaultAuthor.name
+  const imageUrl = post.mainImage ? urlFor(post.mainImage).width(1200).height(630).url() : undefined
+
   return {
-    title: `${post.title} | Jersey Proper Notes`,
-    description: post.excerpt || `Read ${post.title} on Jersey Proper Notes.`,
+    title: post.title,
+    description: post.excerpt || `Read ${post.title} on ${siteConfig.name} Notes.`,
+    authors: [{ name: authorName }],
+    alternates: {
+      canonical: postUrl,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      images: post.mainImage ? [urlFor(post.mainImage).width(1200).height(630).url()] : [],
+      url: postUrl,
+      type: 'article',
+      publishedTime: post.publishedAt,
+      authors: [authorName],
+      images: imageUrl ? [imageUrl] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: imageUrl ? [imageUrl] : [],
+    },
+    other: {
+      'article:published_time': post.publishedAt,
+      'article:author': authorName,
     },
   }
 }
@@ -64,8 +92,26 @@ export default async function BlogPostPage({ params }: Props) {
     day: 'numeric',
   })
 
+  // Generate BlogPosting structured data
+  const authorName = post.author?.name || defaultAuthor.name
+  const imageUrl = post.mainImage ? urlFor(post.mainImage).width(1200).height(630).url() : undefined
+  const categoryNames = post.categories?.map((cat: any) => cat.title) || []
+  
+  const blogPostingSchema = generateBlogPostingSchema({
+    headline: post.title,
+    description: post.excerpt || `Read ${post.title} on ${siteConfig.name} Notes.`,
+    pathname: `/notes/${post.slug.current}`,
+    datePublished: post.publishedAt,
+    author: { name: authorName, url: siteConfig.url },
+    image: imageUrl,
+    categories: categoryNames,
+  })
+
   return (
     <main className="min-h-screen bg-jp-black">
+      {/* BlogPosting JSON-LD */}
+      <JsonLd data={blogPostingSchema} />
+      
       <Navigation />
 
       <article className="pt-32 pb-20">

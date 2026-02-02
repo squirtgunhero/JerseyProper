@@ -11,6 +11,7 @@ import {
   recordUsageEvent, 
   AbuseGuardError 
 } from '@/lib/guards/abuse'
+import { notifyAuditRun } from '@/lib/email'
 
 const CreateAuditSchema = z.object({
   url: z.string().url('Please enter a valid URL'),
@@ -85,6 +86,9 @@ export async function POST(request: NextRequest) {
         status: 'processing',
       },
     })
+
+    // Send email notification
+    await notifyAuditRun(limitCheck.domain, url)
 
     // Update usage event with audit ID
     // (optional, but useful for debugging)

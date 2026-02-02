@@ -1,116 +1,176 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
+import MagneticButton from './MagneticButton'
+
+/**
+ * CINEMATIC HERO COMPONENT
+ * 
+ * Premium boutique hero with:
+ * 1. Text-reveal animation for typography
+ * 2. Magnetic CTA button with follow effect
+ * 3. Spring-based animations throughout
+ * 4. Layered cinematic background effects
+ */
+
+// Text reveal animation variants with configurable delay
+const createTitleVariants = (delay: number = 0.3) => ({
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: delay,
+    },
+  },
+})
+
+const letterVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 50,
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: 'spring',
+      damping: 20,
+      stiffness: 100,
+    },
+  },
+}
+
+// Split text into characters for reveal animation
+function TextReveal({ text, delay = 0.3, isGold = false }: { text: string; delay?: number; isGold?: boolean }) {
+  const titleVariants = createTitleVariants(delay)
+  
+  return (
+    <motion.span
+      variants={titleVariants}
+      initial="hidden"
+      animate="visible"
+      className={`inline-block whitespace-nowrap ${isGold ? 'gold-text' : ''}`}
+    >
+      {text.split('').map((char, i) => (
+        <motion.span
+          key={i}
+          variants={letterVariants}
+          className="inline-block"
+        >
+          {char === ' ' ? '\u00A0' : char}
+        </motion.span>
+      ))}
+    </motion.span>
+  )
+}
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-jp-black texture-overlay pt-20 pb-24 md:pt-0 md:pb-0">
-      {/* Subtle gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-jp-deep/50 via-transparent to-jp-black/80" />
-      
-      {/* Decorative elements - hidden on mobile */}
-      <div className="hidden sm:block absolute inset-0 overflow-hidden">
-        {/* Corner lines */}
-        <div className="absolute top-8 left-8 w-24 h-px bg-gradient-to-r from-gold/30 to-transparent" />
-        <div className="absolute top-8 left-8 w-px h-24 bg-gradient-to-b from-gold/30 to-transparent" />
-        <div className="absolute top-8 right-8 w-24 h-px bg-gradient-to-l from-gold/30 to-transparent" />
-        <div className="absolute top-8 right-8 w-px h-24 bg-gradient-to-b from-gold/30 to-transparent" />
-        <div className="absolute bottom-8 left-8 w-24 h-px bg-gradient-to-r from-gold/30 to-transparent" />
-        <div className="absolute bottom-8 left-8 w-px h-24 bg-gradient-to-t from-gold/30 to-transparent" />
-        <div className="absolute bottom-8 right-8 w-24 h-px bg-gradient-to-l from-gold/30 to-transparent" />
-        <div className="absolute bottom-8 right-8 w-px h-24 bg-gradient-to-t from-gold/30 to-transparent" />
-      </div>
+    <section className="relative min-h-screen flex items-end md:items-center overflow-hidden bg-jp-black">
+      {/* 
+        LAYER 1: Base Background Image
+        - Mobile: show statue face at top, content at bottom
+        - Desktop: full composition with content on right
+      */}
+      <motion.div
+        initial={{ opacity: 0, scale: 1.05 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute inset-0 hero-drift"
+      >
+        <Image
+          src="/hero-bg.webp"
+          alt="Jersey Proper - Premium digital experiences"
+          fill
+          priority
+          quality={75}
+          className="object-cover object-[35%_50%] md:object-[40%_50%] lg:object-[45%_50%]"
+          sizes="100vw"
+          fetchPriority="high"
+        />
+      </motion.div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-        {/* Logo Lockup */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="mb-8"
-        >
-          {/* JERSEY with ornamental line */}
-          <div className="flex items-center justify-center gap-4 mb-2">
-            <div className="hidden sm:flex items-center gap-2">
-              <span className="w-12 h-px bg-gold/50" />
-              <div className="diamond" />
-              <span className="w-8 h-px bg-gold/50" />
-            </div>
-            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] sm:tracking-[0.2em] uppercase text-cream font-medium">
-              Jersey
+      {/* 
+        LAYER 2: Film Grain
+        - Very subtle noise texture
+        - Creates analog/cinematic feel
+      */}
+      <div className="film-grain z-[1]" aria-hidden="true" />
+
+      {/* 
+        LAYER 3: Vignette
+        - Darkens edges for focus
+        - Cinematic framing
+      */}
+      <div className="hero-vignette z-[2]" aria-hidden="true" />
+
+      {/* 
+        LAYER 4: Gradient Overlays
+        - Fade edges to black for seamless blending
+      */}
+      {/* Left edge fade to black */}
+      <div className="absolute inset-y-0 left-0 w-32 md:w-48 bg-gradient-to-r from-jp-black via-jp-black/60 to-transparent z-[3]" />
+      {/* Mobile: bottom-heavy gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent md:hidden z-[3]" />
+      {/* Desktop: right-side gradient for text contrast */}
+      <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/40 z-[3]" />
+      {/* Top fade for navigation */}
+      <div className="absolute top-0 left-0 right-0 h-24 md:h-32 bg-gradient-to-b from-jp-black/80 to-transparent z-[3]" />
+      {/* Bottom blend into green sections */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 md:h-64 hero-blend z-[3]" />
+
+      {/* LAYER 5: Content */}
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-20 md:pt-24 pb-24 md:pb-0 md:min-h-screen md:flex md:items-center md:justify-end">
+        <div className="w-full md:w-[55%] lg:w-1/2 text-center md:text-left">
+          {/* Logo Lockup with text reveal */}
+          <div className="mb-6 md:mb-8 overflow-hidden">
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-[0.06em] sm:tracking-[0.08em] uppercase text-cream font-medium leading-[0.85]">
+              <TextReveal text="Jersey" delay={0.3} />
             </h1>
-            <div className="hidden sm:flex items-center gap-2">
-              <span className="w-8 h-px bg-gold/50" />
-              <div className="diamond" />
-              <span className="w-12 h-px bg-gold/50" />
-            </div>
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-[0.06em] sm:tracking-[0.08em] uppercase font-medium leading-[0.85]">
+              <TextReveal text="Proper" delay={0.8} isGold />
+            </h1>
           </div>
-          
-          {/* PROPER with gold gradient */}
-          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] sm:tracking-[0.2em] uppercase font-medium gold-text">
-            Proper
-          </h1>
-        </motion.div>
 
-        {/* Decorative line with diamonds */}
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="flex items-center justify-center gap-2 sm:gap-3 mb-8 sm:mb-12"
-        >
-          <span className="w-10 sm:w-16 md:w-24 h-px bg-gradient-to-r from-transparent to-gold/50" />
-          <div className="diamond opacity-60 scale-75 sm:scale-100" />
-          <span className="w-6 sm:w-8 md:w-12 h-px bg-gold/50" />
-          <div className="diamond scale-75 sm:scale-100" />
-          <span className="w-6 sm:w-8 md:w-12 h-px bg-gold/50" />
-          <div className="diamond opacity-60 scale-75 sm:scale-100" />
-          <span className="w-10 sm:w-16 md:w-24 h-px bg-gradient-to-l from-transparent to-gold/50" />
-        </motion.div>
-
-        {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="font-sans text-base sm:text-lg md:text-xl text-cream/60 max-w-2xl mx-auto mb-8 sm:mb-12 font-light leading-relaxed px-4"
-        >
-          Premium digital experiences for businesses that refuse to blend in
-        </motion.p>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-        >
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="btn-gold inline-block"
+          {/* Tagline with fade-in */}
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              type: 'spring',
+              damping: 25,
+              stiffness: 100,
+              delay: 0.8 
+            }}
+            className="font-sans text-base sm:text-lg md:text-xl lg:text-2xl text-cream/80 max-w-sm sm:max-w-md lg:max-w-lg mx-auto md:mx-0 mb-8 md:mb-10 font-light leading-relaxed"
           >
-            Start a Project
-          </motion.a>
-        </motion.div>
+            Premium digital experiences for businesses that refuse to blend in
+          </motion.p>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="hidden sm:block absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2"
-        >
+          {/* Magnetic CTA Button */}
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="flex flex-col items-center gap-3"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              type: 'spring',
+              damping: 25,
+              stiffness: 100,
+              delay: 1.0 
+            }}
           >
-            <span className="text-xs tracking-[0.2em] uppercase text-cream/30">Scroll</span>
-            <div className="w-px h-8 bg-gradient-to-b from-gold/50 to-transparent" />
+            <MagneticButton
+              href="#contact"
+              className="btn-gold inline-block text-sm sm:text-base px-8 py-4 sm:px-10 sm:py-5"
+              strength={0.25}
+            >
+              Start a Project
+            </MagneticButton>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
+
     </section>
   )
 }
