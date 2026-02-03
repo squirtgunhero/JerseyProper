@@ -148,6 +148,13 @@ export default function Footer() {
             >
               Terms of Service
             </a>
+            <span className="text-cream/20">|</span>
+            <a 
+              href="/disclaimer" 
+              className="text-cream/30 hover:text-gold transition-colors"
+            >
+              Disclaimer
+            </a>
           </div>
         </div>
       </div>
