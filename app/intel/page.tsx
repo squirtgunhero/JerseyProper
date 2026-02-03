@@ -33,7 +33,7 @@ const categories = [
   },
 ]
 
-export default function AdSpyPage() {
+export default function IntelPage() {
   const [query, setQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
@@ -68,7 +68,7 @@ export default function AdSpyPage() {
               Jersey Proper
             </p>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight text-white mb-4">
-              Competitor Ad Spy
+              Competitor Intel
             </h1>
             <p className="text-base text-white/50">
               Enter a business name to see all their Facebook & Instagram ads
@@ -100,7 +100,7 @@ export default function AdSpyPage() {
                     : 'bg-gold/15 text-white/30 cursor-not-allowed'
                 }`}
               >
-                Spy
+                Search
               </button>
             </div>
           </motion.form>
@@ -144,7 +144,7 @@ export default function AdSpyPage() {
               className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 mb-8"
             >
               <p className="text-xs text-white/50 mb-4">
-                Click to spy on <span className="text-gold">{selectedCategory}</span> brands:
+                View ads from <span className="text-gold">{selectedCategory}</span> brands:
               </p>
               <div className="flex flex-wrap gap-2">
                 {categories.find(c => c.name === selectedCategory)?.brands.map((brand) => (

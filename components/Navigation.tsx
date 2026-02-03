@@ -13,7 +13,7 @@ const navLinks = [
   { name: 'About', href: '#about', isAnchor: true },
   { name: 'Notes', href: '/notes', isAnchor: false },
   { name: 'Analyzer', href: '/analyzer', isAnchor: false },
-  { name: 'Ad Spy', href: '/ad-spy', isAnchor: false },
+  { name: 'Intel', href: '/intel', isAnchor: false },
   { name: 'Contact', href: '#contact', isAnchor: true },
 ]
 
