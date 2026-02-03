@@ -134,7 +134,7 @@ export default function WhyUs() {
             variants={headerVariants}
             className="font-display text-3xl md:text-4xl lg:text-5xl tracking-luxury uppercase text-cream font-medium mb-6"
           >
-            The <span className="gold-text-static">Proper</span> Difference
+            Why Choose <span className="gold-text-static">Jersey Proper?</span>
           </motion.h2>
           <motion.p
             variants={headerVariants}

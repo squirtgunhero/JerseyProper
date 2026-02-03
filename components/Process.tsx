@@ -115,7 +115,7 @@ export default function Process() {
             variants={headerVariants}
             className="font-display text-3xl md:text-4xl lg:text-5xl tracking-luxury uppercase text-cream font-medium mb-6"
           >
-            How We <span className="gold-text-static">Work</span>
+            How Do We <span className="gold-text-static">Work?</span>
           </motion.h2>
           <motion.p
             variants={headerVariants}

@@ -139,7 +139,7 @@ export default function Story() {
               variants={fadeInUpVariants}
               className="font-display text-3xl md:text-4xl tracking-luxury uppercase text-cream font-medium mb-10"
             >
-              Built <span className="gold-text-static">Different</span>
+              Who Is <span className="gold-text-static">Jersey Proper?</span>
             </motion.h2>
 
             <motion.div

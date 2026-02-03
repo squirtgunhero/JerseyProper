@@ -72,7 +72,7 @@ export default function FAQ() {
             variants={itemVariants}
             className="font-display text-2xl md:text-3xl lg:text-4xl tracking-luxury uppercase text-cream font-medium"
           >
-            Frequently <span className="gold-text-static">Asked</span>
+            What Questions Do Clients <span className="gold-text-static">Ask?</span>
           </motion.h2>
         </motion.div>
 

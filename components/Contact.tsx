@@ -73,7 +73,7 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-display text-3xl md:text-4xl lg:text-5xl tracking-luxury uppercase text-cream font-medium mb-6"
           >
-            Let&apos;s Build Something <span className="gold-text-static">Proper</span>
+            Ready to Start Your <span className="gold-text-static">Project?</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

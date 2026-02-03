@@ -135,7 +135,7 @@ export default function Features() {
             variants={headerVariants}
             className="font-display text-3xl md:text-4xl lg:text-5xl tracking-luxury uppercase text-cream font-medium mb-6"
           >
-            What We <span className="gold-text-static">Craft</span>
+            What Do We <span className="gold-text-static">Offer?</span>
           </motion.h2>
           <motion.p
             variants={headerVariants}
