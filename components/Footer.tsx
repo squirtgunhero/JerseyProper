@@ -122,10 +122,18 @@ export default function Footer() {
           <span className="w-12 h-px bg-gradient-to-l from-transparent to-gold/30" />
         </div>
 
-        {/* Copyright */}
-        <p className="text-cream/30 text-xs text-center">
-          © {new Date().getFullYear()} Jersey Proper. All rights reserved. Boutique creative studio serving New Jersey and nationwide.
-        </p>
+        {/* Copyright & Legal */}
+        <div className="text-center">
+          <p className="text-cream/30 text-xs mb-2">
+            © {new Date().getFullYear()} Jersey Proper. All rights reserved. Boutique creative studio serving New Jersey and nationwide.
+          </p>
+          <a 
+            href="/privacy" 
+            className="text-cream/30 hover:text-gold text-xs transition-colors"
+          >
+            Privacy Policy
+          </a>
+        </div>
       </div>
     </footer>
   )
