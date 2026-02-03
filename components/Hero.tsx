@@ -126,11 +126,14 @@ export default function Hero() {
         <div className="w-full md:w-[55%] lg:w-1/2 text-center md:text-left">
           {/* Logo Lockup with text reveal */}
           <div className="mb-6 md:mb-8 overflow-hidden">
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-[0.06em] sm:tracking-[0.08em] uppercase text-cream font-medium leading-[0.85]">
-              <TextReveal text="Jersey" delay={0.3} />
-            </h1>
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-[0.06em] sm:tracking-[0.08em] uppercase font-medium leading-[0.85]">
-              <TextReveal text="Proper" delay={0.8} isGold />
+              <span className="text-cream block">
+                <TextReveal text="Jersey" delay={0.3} />
+              </span>
+              <span className="block">
+                <TextReveal text="Proper" delay={0.8} isGold />
+              </span>
+              <span className="sr-only"> - Boutique Creative Studio</span>
             </h1>
           </div>
 
