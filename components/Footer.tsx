@@ -141,6 +141,13 @@ export default function Footer() {
             >
               Cookie Policy
             </a>
+            <span className="text-cream/20">|</span>
+            <a 
+              href="/terms" 
+              className="text-cream/30 hover:text-gold transition-colors"
+            >
+              Terms of Service
+            </a>
           </div>
         </div>
       </div>
