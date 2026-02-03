@@ -77,7 +77,7 @@ export default function CookiePolicyPage() {
               </p>
               <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-6 text-sm">
                 <p className="text-white/60">
-                  <strong className="text-white">Cookie:</strong> cookie_consent | 
+                  <strong className="text-white">Cookie:</strong> jp_cookie_consent | 
                   <strong className="text-white"> Provider:</strong> jerseyproper.com | 
                   <strong className="text-white"> Purpose:</strong> Stores your cookie consent preferences | 
                   <strong className="text-white"> Duration:</strong> 1 year | 

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
 import { Bodoni_Moda } from 'next/font/google'
-import Script from 'next/script'
 import './globals.css'
 import ScrollToTop from '@/components/ScrollToTop'
 import JsonLd from '@/components/JsonLd'
+import CookieConsent from '@/components/CookieConsent'
 import { siteConfig } from '@/lib/config/site'
 import {
   generateOrganizationSchema,
@@ -114,20 +114,7 @@ export default function RootLayout({
       <body className={`${outfit.className} antialiased`}>
         <ScrollToTop />
         {children}
-        
-        {/* Google Analytics - loaded after page is interactive */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-3MB1YMCJDR"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-3MB1YMCJDR');
-          `}
-        </Script>
+        <CookieConsent />
       </body>
     </html>
   )

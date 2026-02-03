@@ -2,6 +2,13 @@
 
 import { Mail, MapPin, Instagram, Linkedin, Youtube, Facebook } from 'lucide-react'
 
+// Extend Window interface for cookie consent
+declare global {
+  interface Window {
+    showCookieConsent?: () => void
+  }
+}
+
 // Custom icons for platforms not in lucide-react
 const XIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -155,6 +162,13 @@ export default function Footer() {
             >
               Disclaimer
             </a>
+            <span className="text-cream/20">|</span>
+            <button 
+              onClick={() => window.showCookieConsent?.()}
+              className="text-cream/30 hover:text-gold transition-colors"
+            >
+              Cookie Settings
+            </button>
           </div>
         </div>
       </div>
