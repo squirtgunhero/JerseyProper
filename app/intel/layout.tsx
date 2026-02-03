@@ -6,6 +6,20 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Competitor Intel | Jersey Proper',
     description: 'Free tool to research your competitors\' Facebook and Instagram ads. See what\'s working in your industry.',
+    images: [
+      {
+        url: '/og-intel.png',
+        width: 1200,
+        height: 630,
+        alt: 'Competitor Intel - See any business\'s Facebook & Instagram ads',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Competitor Intel | Jersey Proper',
+    description: 'Free tool to research your competitors\' Facebook and Instagram ads.',
+    images: ['/og-intel.png'],
   },
 }
 
