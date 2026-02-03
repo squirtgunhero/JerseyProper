@@ -37,14 +37,25 @@ export default function IntelPage() {
   const [query, setQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
+  const trackActivity = (type: 'search' | 'brand_click', value: string, category?: string) => {
+    // Fire and forget - don't block the user
+    fetch('/api/intel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, value, category }),
+    }).catch(() => {}) // Silently ignore errors
+  }
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (!query.trim()) return
+    trackActivity('search', query.trim())
     const url = `https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=${encodeURIComponent(query.trim())}&search_type=keyword_unordered`
     window.open(url, '_blank')
   }
 
   const handleBrandClick = (brand: string) => {
+    trackActivity('brand_click', brand, selectedCategory || undefined)
     const url = `https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=${encodeURIComponent(brand)}&search_type=keyword_unordered`
     window.open(url, '_blank')
   }
