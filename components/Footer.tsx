@@ -127,12 +127,21 @@ export default function Footer() {
           <p className="text-cream/30 text-xs mb-2">
             © {new Date().getFullYear()} Jersey Proper. All rights reserved. Boutique creative studio serving New Jersey and nationwide.
           </p>
-          <a 
-            href="/privacy" 
-            className="text-cream/30 hover:text-gold text-xs transition-colors"
-          >
-            Privacy Policy
-          </a>
+          <div className="flex items-center justify-center gap-3 text-xs">
+            <a 
+              href="/privacy" 
+              className="text-cream/30 hover:text-gold transition-colors"
+            >
+              Privacy Policy
+            </a>
+            <span className="text-cream/20">|</span>
+            <a 
+              href="/cookies" 
+              className="text-cream/30 hover:text-gold transition-colors"
+            >
+              Cookie Policy
+            </a>
+          </div>
         </div>
       </div>
     </footer>
