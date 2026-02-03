@@ -81,11 +81,11 @@ export default function Footer() {
             </h4>
             <div className="flex flex-col gap-3">
               <a 
-                href="mailto:hello@jerseyproper.com" 
+                href="mailto:michael@jerseyproper.com" 
                 className="inline-flex items-center gap-2 text-cream/50 hover:text-gold text-sm transition-colors justify-center md:justify-end"
               >
                 <Mail className="w-3.5 h-3.5" />
-                hello@jerseyproper.com
+                michael@jerseyproper.com
               </a>
               <div className="inline-flex items-center gap-2 text-cream/40 text-sm justify-center md:justify-end">
                 <MapPin className="w-3.5 h-3.5" />

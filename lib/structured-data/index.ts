@@ -341,7 +341,7 @@ export const homepageFAQs: FAQItem[] = [
   },
   {
     question: 'How do I contact Jersey Proper?',
-    answer: 'You can contact Jersey Proper by emailing hello@jerseyproper.com or through the contact form on the website. Every inquiry is personally reviewed by founder Michael Ehrlich.',
+    answer: 'You can contact Jersey Proper by emailing michael@jerseyproper.com or through the contact form on the website. Every inquiry is personally reviewed by founder Michael Ehrlich.',
   },
 ]
 

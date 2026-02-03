@@ -10,7 +10,7 @@ export const siteConfig = {
   name: 'Jersey Proper',
   legalName: 'Jersey Proper',
   url: 'https://jerseyproper.com',
-  email: 'hello@jerseyproper.com',
+  email: 'michael@jerseyproper.com',
   
   // Descriptions
   tagline: 'Premium digital experiences for businesses that refuse to blend in.',

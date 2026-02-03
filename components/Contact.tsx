@@ -197,8 +197,8 @@ export default function Contact() {
         >
           <p className="text-cream/40 text-sm mb-4">
             Prefer email?{' '}
-            <a href="mailto:hello@jerseyproper.com" className="text-gold hover:text-gold-light transition-colors">
-              hello@jerseyproper.com
+            <a href="mailto:michael@jerseyproper.com" className="text-gold hover:text-gold-light transition-colors">
+              michael@jerseyproper.com
             </a>
           </p>
           {/* Trust signal */}
