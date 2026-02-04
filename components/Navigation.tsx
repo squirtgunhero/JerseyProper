@@ -1,25 +1,43 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import clsx from 'clsx'
 
-const navLinks = [
+interface NavLink {
+  name: string
+  href: string
+  isAnchor: boolean
+  children?: { name: string; href: string }[]
+}
+
+const navLinks: NavLink[] = [
   { name: 'Services', href: '#services', isAnchor: true },
   { name: 'Process', href: '#process', isAnchor: true },
   { name: 'About', href: '#about', isAnchor: true },
   { name: 'Notes', href: '/notes', isAnchor: false },
-  { name: 'Analyzer', href: '/analyzer', isAnchor: false },
-  { name: 'Intel', href: '/intel', isAnchor: false },
+  { 
+    name: 'Tools', 
+    href: '#',
+    isAnchor: false,
+    children: [
+      { name: 'AEO Analyzer', href: '/analyzer' },
+      { name: 'Competitor Intel', href: '/intel' },
+      { name: 'Signal Intelligence', href: '/signal-intelligence' },
+    ]
+  },
   { name: 'Contact', href: '#contact', isAnchor: true },
 ]
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [toolsOpen, setToolsOpen] = useState(false)
+  const [mobileToolsOpen, setMobileToolsOpen] = useState(false)
+  const toolsRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const isHomePage = pathname === '/'
 
@@ -31,10 +49,25 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const getHref = (link: typeof navLinks[0]) => {
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (toolsRef.current && !toolsRef.current.contains(event.target as Node)) {
+        setToolsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const getHref = (link: NavLink) => {
     if (!link.isAnchor) return link.href
     return isHomePage ? link.href : `/${link.href}`
   }
+
+  const isToolsActive = navLinks
+    .find(l => l.name === 'Tools')
+    ?.children?.some(child => pathname?.startsWith(child.href)) ?? false
 
   return (
     <>
@@ -68,7 +101,51 @@ export default function Navigation() {
           {/* Desktop Nav */}
           <div className="flex items-center gap-10">
             {navLinks.map((link) => (
-              link.isAnchor ? (
+              link.children ? (
+                // Tools dropdown
+                <div key={link.name} className="relative" ref={toolsRef}>
+                  <button
+                    onClick={() => setToolsOpen(!toolsOpen)}
+                    className={clsx(
+                      "flex items-center gap-1 text-cream/70 hover:text-white transition-colors duration-300 text-sm tracking-widest uppercase font-light",
+                      isToolsActive && "text-white"
+                    )}
+                  >
+                    {link.name}
+                    <ChevronDown className={clsx(
+                      "w-3.5 h-3.5 transition-transform duration-200",
+                      toolsOpen && "rotate-180"
+                    )} />
+                  </button>
+                  <AnimatePresence>
+                    {toolsOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute top-full left-0 mt-3 w-52 rounded-lg bg-jp-black/95 backdrop-blur-sm border border-cream/10 shadow-xl overflow-hidden"
+                      >
+                        <div className="py-2">
+                          {link.children.map((child) => (
+                            <Link
+                              key={child.name}
+                              href={child.href}
+                              onClick={() => setToolsOpen(false)}
+                              className={clsx(
+                                "block px-4 py-2.5 text-sm text-cream/70 hover:text-white hover:bg-cream/5 transition-colors duration-200",
+                                pathname?.startsWith(child.href) && "text-white bg-cream/5"
+                              )}
+                            >
+                              {child.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : link.isAnchor ? (
                 <a
                   key={link.name}
                   href={getHref(link)}
@@ -124,47 +201,95 @@ export default function Navigation() {
       </motion.header>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-40 bg-jp-black pt-24 px-6 md:hidden"
-        >
-          <div className="flex flex-col gap-6">
-            {navLinks.map((link, i) => (
-              link.isAnchor ? (
-                <motion.a
-                  key={link.name}
-                  href={getHref(link)}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="font-display text-2xl tracking-luxury uppercase text-cream hover:text-white transition-colors duration-300"
-                >
-                  {link.name}
-                </motion.a>
-              ) : (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                >
-                  <Link
-                    href={link.href}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-jp-black pt-24 px-6 md:hidden overflow-y-auto"
+          >
+            <div className="flex flex-col gap-6">
+              {navLinks.map((link, i) => (
+                link.children ? (
+                  // Mobile Tools dropdown
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                  >
+                    <button
+                      onClick={() => setMobileToolsOpen(!mobileToolsOpen)}
+                      className="flex items-center justify-between w-full font-display text-2xl tracking-luxury uppercase text-cream hover:text-white transition-colors duration-300"
+                    >
+                      {link.name}
+                      <ChevronDown className={clsx(
+                        "w-5 h-5 transition-transform duration-200",
+                        mobileToolsOpen && "rotate-180"
+                      )} />
+                    </button>
+                    <AnimatePresence>
+                      {mobileToolsOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-4 pt-4 flex flex-col gap-4 border-l border-cream/20 ml-2 mt-4">
+                            {link.children.map((child) => (
+                              <Link
+                                key={child.name}
+                                href={child.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className={clsx(
+                                  "font-display text-lg tracking-wide text-cream/70 hover:text-white transition-colors duration-300",
+                                  pathname?.startsWith(child.href) && "text-white"
+                                )}
+                              >
+                                {child.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                ) : link.isAnchor ? (
+                  <motion.a
+                    key={link.name}
+                    href={getHref(link)}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.08 }}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="font-display text-2xl tracking-luxury uppercase text-cream hover:text-white transition-colors duration-300"
                   >
                     {link.name}
-                  </Link>
-                </motion.div>
-              )
-            ))}
-          </div>
-        </motion.div>
-      )}
+                  </motion.a>
+                ) : (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="font-display text-2xl tracking-luxury uppercase text-cream hover:text-white transition-colors duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                )
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

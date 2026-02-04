@@ -1,0 +1,83 @@
+[
+  {
+    "url": "https://competitor-realty.com/blog/spring-market-2026-predictions",
+    "title": "Spring 2026 Market Predictions: What Buyers and Sellers Need to Know",
+    "published_date": "2026-01-15T00:00:00Z",
+    "word_count": 1850,
+    "topics": ["market trends", "spring market", "buyer tips", "seller tips"],
+    "content_type": "blog",
+    "engagement_signals": {
+      "shares": 45,
+      "comments": 12,
+      "backlinks": 3
+    }
+  },
+  {
+    "url": "https://competitor-realty.com/blog/first-time-buyer-guide",
+    "title": "The Complete First-Time Home Buyer Guide for 2026",
+    "published_date": "2025-06-01T00:00:00Z",
+    "word_count": 3200,
+    "topics": ["first-time buyers", "buyer guide", "mortgage tips", "home buying process"],
+    "content_type": "blog",
+    "engagement_signals": {
+      "shares": 234,
+      "comments": 67,
+      "backlinks": 15
+    }
+  },
+  {
+    "url": "https://local-home-experts.com/case-study/downtown-condo-sale",
+    "title": "Case Study: How We Sold a Downtown Condo 15% Above Asking",
+    "published_date": "2025-11-20T00:00:00Z",
+    "word_count": 1200,
+    "topics": ["case study", "selling strategy", "downtown", "above asking"],
+    "content_type": "case-study",
+    "engagement_signals": {
+      "shares": 23,
+      "comments": 5,
+      "backlinks": 2
+    }
+  },
+  {
+    "url": "https://competitor-realty.com/blog/staging-tips-that-sell",
+    "title": "10 Home Staging Tips That Actually Sell Homes",
+    "published_date": "2025-03-10T00:00:00Z",
+    "word_count": 2100,
+    "topics": ["staging", "seller tips", "home presentation", "selling tips"],
+    "content_type": "blog",
+    "engagement_signals": {
+      "shares": 156,
+      "comments": 34,
+      "backlinks": 8
+    }
+  },
+  {
+    "url": "https://local-home-experts.com/blog/neighborhood-guide-downtown",
+    "title": "Living Downtown: A Complete Neighborhood Guide",
+    "published_date": "2025-08-15T00:00:00Z",
+    "word_count": 2800,
+    "topics": ["neighborhood guide", "downtown", "local expertise", "buyer guide"],
+    "content_type": "blog",
+    "engagement_signals": {
+      "shares": 89,
+      "comments": 21,
+      "backlinks": 6
+    }
+  },
+  {
+    "url": "https://competitor-realty.com/landing/free-valuation",
+    "title": "Get Your Free Home Valuation",
+    "published_date": "2025-01-01T00:00:00Z",
+    "word_count": 450,
+    "topics": ["valuation", "home value", "seller lead"],
+    "content_type": "landing"
+  },
+  {
+    "url": "https://competitor-realty.com/news/team-expansion-2026",
+    "title": "Competitor Realty Group Expands Team with Three New Agents",
+    "published_date": "2026-01-05T00:00:00Z",
+    "word_count": 600,
+    "topics": ["company news", "team", "growth"],
+    "content_type": "press-release"
+  }
+]

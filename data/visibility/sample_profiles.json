@@ -1,0 +1,61 @@
+[
+  {
+    "platform": "Google Business",
+    "business_name": "Competitor Realty Group",
+    "review_count": 127,
+    "average_rating": 4.8,
+    "photo_count": 45,
+    "services_listed": ["Home buying", "Home selling", "Property management", "Commercial real estate"],
+    "last_review_date": "2026-01-28T00:00:00Z",
+    "profile_completeness": 95,
+    "response_rate": 92,
+    "categories": ["Real estate agency", "Real estate consultant"]
+  },
+  {
+    "platform": "Yelp",
+    "business_name": "Competitor Realty Group",
+    "review_count": 34,
+    "average_rating": 4.5,
+    "photo_count": 12,
+    "services_listed": ["Residential sales", "First-time buyers"],
+    "last_review_date": "2026-01-15T00:00:00Z",
+    "profile_completeness": 80,
+    "response_rate": 75,
+    "categories": ["Real Estate Agents"]
+  },
+  {
+    "platform": "Google Business",
+    "business_name": "Local Home Experts",
+    "review_count": 89,
+    "average_rating": 4.9,
+    "photo_count": 67,
+    "services_listed": ["Luxury homes", "Residential", "Investment properties"],
+    "last_review_date": "2026-01-30T00:00:00Z",
+    "profile_completeness": 100,
+    "response_rate": 98,
+    "categories": ["Real estate agency", "Property management company"]
+  },
+  {
+    "platform": "Google Business",
+    "business_name": "Quick Sell Homes",
+    "review_count": 8,
+    "average_rating": 3.2,
+    "photo_count": 2,
+    "services_listed": [],
+    "last_review_date": "2025-10-05T00:00:00Z",
+    "profile_completeness": 45,
+    "response_rate": 20,
+    "categories": ["Real estate agency"]
+  },
+  {
+    "platform": "Facebook",
+    "business_name": "Competitor Realty Group",
+    "review_count": 56,
+    "average_rating": 4.7,
+    "photo_count": 234,
+    "services_listed": ["Home buying", "Home selling"],
+    "last_review_date": "2026-01-25T00:00:00Z",
+    "profile_completeness": 90,
+    "categories": ["Real Estate Agent"]
+  }
+]

@@ -12,11 +12,13 @@
     "test:run": "vitest run",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "seed:competitors": "tsx scripts/seed-competitors.ts"
   },
   "dependencies": {
     "@portabletext/react": "^3.1.0",
     "@prisma/client": "^6.19.2",
+    "@supabase/supabase-js": "^2.45.0",
     "@sanity/icons": "^3.7.4",
     "@sanity/image-url": "^1.0.2",
     "@sanity/schema": "^5.6.0",
@@ -39,6 +41,7 @@
   },
   "devDependencies": {
     "@types/babel__generator": "^7.27.0",
+    "tsx": "^4.19.0",
     "@types/babel__template": "^7.4.4",
     "@types/cheerio": "^0.22.35",
     "@types/node": "^22.0.0",
