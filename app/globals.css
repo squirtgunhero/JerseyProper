@@ -659,3 +659,30 @@ body {
     filter: none;
   }
 }
+
+/* =============================================================================
+   FORM INPUT OVERRIDES
+   
+   Ensure form inputs have proper text colors on light backgrounds
+============================================================================= */
+
+/* Force black text on inputs with bg-white */
+input.bg-white,
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="url"] {
+  color: #18181b !important; /* zinc-900 */
+  -webkit-text-fill-color: #18181b !important;
+}
+
+/* Handle browser autofill styling */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #18181b !important;
+  color: #18181b !important;
+  caret-color: #18181b !important;
+}
