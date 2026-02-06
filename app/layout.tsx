@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
 import { Bodoni_Moda } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import ScrollToTop from '@/components/ScrollToTop'
 import JsonLd from '@/components/JsonLd'
@@ -115,6 +116,13 @@ export default function RootLayout({
         <ScrollToTop />
         {children}
         <CookieConsent />
+        
+        {/* AI Attribution Tracker - Track AI-driven traffic */}
+        <Script
+          src="/track.js"
+          data-api-key="9b2affb95134aa450380bb621986368b7f39f45e01fca7bddb87ee339fc6a46c"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )
