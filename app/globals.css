@@ -686,3 +686,21 @@ input:-webkit-autofill:active {
   color: #18181b !important;
   caret-color: #18181b !important;
 }
+
+/* Newsletter popup input overrides - light text on dark background */
+.newsletter-input,
+.newsletter-input[type="email"] {
+  color: var(--cream) !important;
+  -webkit-text-fill-color: var(--cream) !important;
+  caret-color: var(--cream) !important;
+}
+
+.newsletter-input:-webkit-autofill,
+.newsletter-input:-webkit-autofill:hover,
+.newsletter-input:-webkit-autofill:focus,
+.newsletter-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--jp-deep) inset !important;
+  -webkit-text-fill-color: var(--cream) !important;
+  color: var(--cream) !important;
+  caret-color: var(--cream) !important;
+}

@@ -6,6 +6,7 @@ import './globals.css'
 import ScrollToTop from '@/components/ScrollToTop'
 import JsonLd from '@/components/JsonLd'
 import CookieConsent from '@/components/CookieConsent'
+import NewsletterPopup from '@/components/NewsletterPopup'
 import { siteConfig } from '@/lib/config/site'
 import {
   generateOrganizationSchema,
@@ -116,6 +117,7 @@ export default function RootLayout({
         <ScrollToTop />
         {children}
         <CookieConsent />
+        <NewsletterPopup />
         
         {/* AI Attribution Tracker - Track AI-driven traffic */}
         <Script
