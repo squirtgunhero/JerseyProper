@@ -704,3 +704,21 @@ input:-webkit-autofill:active {
   color: var(--cream) !important;
   caret-color: var(--cream) !important;
 }
+
+/* Newsletter green popup - white input with dark text */
+.newsletter-input-green,
+.newsletter-input-green[type="email"] {
+  color: #18181b !important;
+  -webkit-text-fill-color: #18181b !important;
+  caret-color: #18181b !important;
+}
+
+.newsletter-input-green:-webkit-autofill,
+.newsletter-input-green:-webkit-autofill:hover,
+.newsletter-input-green:-webkit-autofill:focus,
+.newsletter-input-green:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+  -webkit-text-fill-color: #18181b !important;
+  color: #18181b !important;
+  caret-color: #18181b !important;
+}
