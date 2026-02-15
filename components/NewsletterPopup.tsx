@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 
 const STORAGE_KEY = 'jp_newsletter_dismissed'
-const SHOW_DELAY_MS = 8000
+const SHOW_DELAY_MS = 5000
 
 export default function NewsletterPopup() {
   const [isVisible, setIsVisible] = useState(false)
@@ -14,8 +14,16 @@ export default function NewsletterPopup() {
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
-    const dismissed = localStorage.getItem(STORAGE_KEY)
-    if (dismissed) return
+    if (typeof window === 'undefined') return
+
+    // Allow ?show_newsletter=1 to bypass localStorage for testing
+    const params = new URLSearchParams(window.location.search)
+    const forceShow = params.get('show_newsletter') === '1'
+
+    if (!forceShow) {
+      const dismissed = localStorage.getItem(STORAGE_KEY)
+      if (dismissed) return
+    }
 
     const timer = setTimeout(() => {
       setIsVisible(true)
@@ -68,7 +76,7 @@ export default function NewsletterPopup() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[99999] bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-[1000000] bg-black/70 backdrop-blur-sm"
             onClick={handleClose}
           />
 
@@ -78,7 +86,7 @@ export default function NewsletterPopup() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[100000] flex items-center justify-center px-4 pointer-events-none"
+            className="fixed inset-0 z-[1000001] flex items-center justify-center px-4 pointer-events-none"
           >
             <div
               className="newsletter-popup relative w-full max-w-lg pointer-events-auto shadow-2xl overflow-hidden"
