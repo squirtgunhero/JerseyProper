@@ -44,7 +44,7 @@ const previewActions = ['Contact created', 'Deal opened', 'Follow-up set']
 export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-[#FAFAF8] font-dm-sans text-[#1A1A1A]">
-      <Navigation />
+      <Navigation variant="light" />
 
       {/* Hero */}
       <section className="pt-[140px] pb-20 px-6 max-w-[900px] mx-auto text-center animate-fade-up">
