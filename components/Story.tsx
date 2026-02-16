@@ -1,7 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 
 /**
  * STORY/ABOUT SECTION
@@ -61,45 +60,42 @@ const imageRevealVariants = {
 }
 
 export default function Story() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
-
   return (
     <section id="about" className="py-48 bg-jp-deep texture-overlay relative overflow-hidden">
       {/* Decorative elements */}
       <motion.div 
         initial={{ scaleX: 0 }}
-        animate={isInView ? { scaleX: 1 } : {}}
+        animate={{ scaleX: 1 }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" 
       />
       
-      <div ref={ref} className="max-w-5xl mx-auto px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Image Side */}
           <motion.div
             variants={imageRevealVariants}
             initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
+            animate="visible"
             className="relative order-2 lg:order-1"
           >
             <div className="relative aspect-[3/4] p-4">
               {/* Decorative frame with animated reveal */}
               <motion.div 
                 initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', damping: 20, stiffness: 100, delay: 0.3 }}
                 className="absolute top-0 left-0 w-8 h-8 border-t border-l border-gold/40" 
               />
               <motion.div 
                 initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', damping: 20, stiffness: 100, delay: 0.4 }}
                 className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-gold/40" 
               />
               <motion.div 
                 initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
                 className="absolute inset-6 border border-gold/20" 
               />
@@ -108,7 +104,7 @@ export default function Story() {
               <div className="relative h-full bg-gradient-to-br from-jp-rich to-jp-black flex items-center justify-center">
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.8 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ type: 'spring', damping: 20, stiffness: 100, delay: 0.6 }}
                   className="text-center"
                 >
@@ -125,7 +121,7 @@ export default function Story() {
           <motion.div 
             variants={containerVariants}
             initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
+            animate="visible"
             className="order-1 lg:order-2"
           >
             <motion.div

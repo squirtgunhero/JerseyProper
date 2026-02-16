@@ -1,7 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import { Crown, Users, Clock, Shield } from 'lucide-react'
 import MagneticButton from './MagneticButton'
 
@@ -83,21 +82,18 @@ const cardVariants = {
 }
 
 export default function WhyUs() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
-
   return (
     <section id="why" className="py-40 bg-jp-rich texture-overlay relative overflow-hidden">
       {/* Decorative elements with animation */}
       <motion.div 
         initial={{ scaleX: 0 }}
-        animate={isInView ? { scaleX: 1 } : {}}
+        animate={{ scaleX: 1 }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" 
       />
       <motion.div 
         initial={{ scaleX: 0 }}
-        animate={isInView ? { scaleX: 1 } : {}}
+        animate={{ scaleX: 1 }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" 
       />
@@ -105,23 +101,23 @@ export default function WhyUs() {
       {/* Corner decorations */}
       <motion.div 
         initial={{ opacity: 0, scale: 0 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', damping: 20, stiffness: 100, delay: 0.4 }}
         className="absolute top-16 left-16 w-20 h-20 border-l border-t border-gold/10" 
       />
       <motion.div 
         initial={{ opacity: 0, scale: 0 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', damping: 20, stiffness: 100, delay: 0.5 }}
         className="absolute bottom-16 right-16 w-20 h-20 border-r border-b border-gold/10" 
       />
 
-      <div ref={ref} className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
+          animate="visible"
           className="text-center mb-24"
         >
           <motion.div
@@ -148,7 +144,7 @@ export default function WhyUs() {
         <motion.div 
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
+          animate="visible"
           className="grid md:grid-cols-2 gap-10 lg:gap-14"
         >
           {reasons.map((reason) => (
@@ -188,20 +184,20 @@ export default function WhyUs() {
         {/* Bottom CTA */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 100, delay: 0.8 }}
           className="mt-24 text-center"
         >
           <motion.div 
             initial={{ scaleX: 0 }}
-            animate={isInView ? { scaleX: 1 } : {}}
+            animate={{ scaleX: 1 }}
             transition={{ duration: 0.8, delay: 1 }}
             className="flex items-center justify-center gap-3 mb-8"
           >
             <span className="w-12 h-px bg-gold/30" />
             <motion.div 
               initial={{ scale: 0, rotate: 0 }}
-              animate={isInView ? { scale: 1, rotate: 45 } : {}}
+              animate={{ scale: 1, rotate: 45 }}
               transition={{ type: 'spring', damping: 15, stiffness: 200, delay: 1.1 }}
               className="w-2 h-2 bg-gold" 
             />

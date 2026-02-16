@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
 
 const projectTypes = [
   'Brand Identity',
@@ -13,8 +13,6 @@ const projectTypes = [
 ]
 
 export default function Contact() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -56,12 +54,12 @@ export default function Contact() {
       <div className="absolute top-12 right-12 w-32 h-32 border border-gold/10 rotate-45" />
       <div className="absolute bottom-12 left-12 w-24 h-24 border border-gold/10 rotate-12" />
 
-      <div ref={ref} className="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="section-label justify-center mb-6"
           >
@@ -69,7 +67,7 @@ export default function Contact() {
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-display text-3xl md:text-4xl lg:text-5xl tracking-luxury uppercase text-cream font-medium mb-6"
           >
@@ -77,7 +75,7 @@ export default function Contact() {
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-cream/50 max-w-lg mx-auto font-light"
           >
@@ -88,7 +86,7 @@ export default function Contact() {
         {/* Contact Form */}
         <motion.form
           initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           onSubmit={handleSubmit}
           className="space-y-8"
@@ -191,7 +189,7 @@ export default function Contact() {
         {/* Alternative contact with trust signals */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-center mt-12 pt-12 border-t border-gold/10"
         >

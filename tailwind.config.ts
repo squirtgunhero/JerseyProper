@@ -25,6 +25,9 @@ const config: Config = {
       fontFamily: {
         display: ['var(--font-bodoni)', 'serif'],
         sans: ['var(--font-outfit)', 'sans-serif'],
+        'dm-sans': ['var(--font-dm-sans)', '-apple-system', 'sans-serif'],
+        'instrument': ['var(--font-instrument-serif)', 'serif'],
+        'cormorant': ['var(--font-cormorant)', 'serif'],
       },
       letterSpacing: {
         'luxury': '0.15em',

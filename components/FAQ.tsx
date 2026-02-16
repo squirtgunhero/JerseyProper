@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { homepageFAQs } from '@/lib/structured-data'
 
@@ -41,8 +41,6 @@ const itemVariants = {
 }
 
 export default function FAQ() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const toggleFAQ = (index: number) => {
@@ -54,12 +52,12 @@ export default function FAQ() {
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
       
-      <div ref={ref} className="max-w-3xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="max-w-3xl mx-auto px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
+          animate="visible"
           className="text-center mb-16"
         >
           <motion.div
@@ -80,7 +78,7 @@ export default function FAQ() {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
+          animate="visible"
           className="space-y-4"
         >
           {homepageFAQs.map((faq, index) => (

@@ -1,7 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 
 /**
  * PROCESS SECTION
@@ -84,25 +83,22 @@ const headerVariants = {
 }
 
 export default function Process() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
-
   return (
     <section id="process" className="py-40 bg-jp-black texture-overlay relative overflow-hidden">
       {/* Decorative vertical line */}
       <motion.div 
         initial={{ scaleY: 0 }}
-        animate={isInView ? { scaleY: 1 } : {}}
+        animate={{ scaleY: 1 }}
         transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
         className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-gold/20 to-transparent origin-top" 
       />
 
-      <div ref={ref} className="max-w-5xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="max-w-5xl mx-auto px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
+          animate="visible"
           className="text-center mb-24"
         >
           <motion.div
@@ -130,7 +126,7 @@ export default function Process() {
         <motion.div 
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
+          animate="visible"
           className="space-y-12 md:space-y-0"
         >
           {steps.map((step, i) => (
@@ -153,7 +149,7 @@ export default function Process() {
                   </motion.span>
                   <motion.div 
                     initial={{ scaleX: 0 }}
-                    animate={isInView ? { scaleX: 1 } : {}}
+                    animate={{ scaleX: 1 }}
                     transition={{ 
                       type: 'spring',
                       damping: 25,

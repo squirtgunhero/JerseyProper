@@ -137,6 +137,8 @@ export default function SatelliteDownlinkPopup() {
       if (typeof window !== 'undefined') {
         localStorage.setItem(STORAGE_SUBSCRIBED, 'true')
       }
+      setIsVisible(false)
+      previousActiveElement.current?.focus()
     } catch {
       setStatus('error')
       setErrorMessage('Transmission failed. Try again.')
@@ -235,11 +237,6 @@ export default function SatelliteDownlinkPopup() {
               <p className="text-red-400/90 text-xs mt-3">{errorMessage}</p>
             )}
           </form>
-
-          {/* Footer */}
-          <p className="text-[#6f7f75] text-[10px] sm:text-xs text-center mt-6">
-            Signal only.
-          </p>
         </div>
       </div>
     </div>

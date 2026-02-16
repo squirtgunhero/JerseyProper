@@ -1,7 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import { Palette, Globe, TrendingUp, Layers, Target, Zap } from 'lucide-react'
 
 /**
@@ -98,31 +97,28 @@ const cardVariants = {
 }
 
 export default function Features() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
-
   return (
     <section id="services" className="py-40 bg-jp-deep texture-overlay relative overflow-hidden">
       {/* Decorative corner elements with reveal animation */}
       <motion.div 
         initial={{ opacity: 0, scale: 0 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', damping: 20, stiffness: 100, delay: 0.5 }}
         className="absolute top-12 left-12 w-16 h-16 border-l border-t border-gold/20" 
       />
       <motion.div 
         initial={{ opacity: 0, scale: 0 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', damping: 20, stiffness: 100, delay: 0.6 }}
         className="absolute bottom-12 right-12 w-16 h-16 border-r border-b border-gold/20" 
       />
 
-      <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
+          animate="visible"
           className="text-center mb-24"
         >
           <motion.div
@@ -150,7 +146,7 @@ export default function Features() {
         <motion.div 
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
+          animate="visible"
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {services.map((service) => (

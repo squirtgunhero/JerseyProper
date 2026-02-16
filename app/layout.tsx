@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { Outfit } from 'next/font/google'
-import { Bodoni_Moda } from 'next/font/google'
+import { Outfit, Bodoni_Moda, DM_Sans, Instrument_Serif, Cormorant_Garamond } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import ScrollToTop from '@/components/ScrollToTop'
@@ -37,6 +36,32 @@ const bodoniModa = Bodoni_Moda({
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
   variable: '--font-bodoni',
+  display: 'swap',
+  preload: true,
+})
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+  preload: false,
+})
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-instrument-serif',
+  display: 'swap',
+  preload: false,
+})
+
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-cormorant',
   display: 'swap',
   preload: true,
 })
@@ -96,19 +121,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${bodoniModa.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${bodoniModa.variable} ${dmSans.variable} ${instrumentSerif.variable} ${cormorantGaramond.variable}`}>
       <head>
         {/* Site-wide JSON-LD structured data */}
         <JsonLd data={siteStructuredData} />
         
-        {/* Preload LCP image for faster rendering */}
-        <link
-          rel="preload"
-          href="/hero-bg.webp"
-          as="image"
-          type="image/webp"
-          fetchPriority="high"
-        />
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
