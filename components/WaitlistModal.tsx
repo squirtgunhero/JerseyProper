@@ -141,7 +141,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your name"
-                    className="w-full px-4 py-3 rounded-xl bg-[#1A1A1E] border border-white/[0.06] text-[#F2F0ED] text-sm placeholder:text-[#5A5A5E] focus:outline-none focus:border-[#E8993E]/40 transition-colors"
+                    className="waitlist-input w-full px-4 py-3 rounded-xl bg-[#1A1A1E] border border-white/[0.06] text-[#F2F0ED] text-sm placeholder:text-[#5A5A5E] focus:outline-none focus:border-[#E8993E]/40 transition-colors"
                   />
                 </div>
                 <div>
@@ -155,7 +155,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@email.com"
-                    className="w-full px-4 py-3 rounded-xl bg-[#1A1A1E] border border-white/[0.06] text-[#F2F0ED] text-sm placeholder:text-[#5A5A5E] focus:outline-none focus:border-[#E8993E]/40 transition-colors"
+                    className="waitlist-input w-full px-4 py-3 rounded-xl bg-[#1A1A1E] border border-white/[0.06] text-[#F2F0ED] text-sm placeholder:text-[#5A5A5E] focus:outline-none focus:border-[#E8993E]/40 transition-colors"
                   />
                 </div>
 

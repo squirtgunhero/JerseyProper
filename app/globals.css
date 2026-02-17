@@ -876,6 +876,25 @@ input:-webkit-autofill:active {
   caret-color: #18181b !important;
 }
 
+/* Waitlist modal input overrides - light text on dark background */
+.waitlist-input,
+.waitlist-input[type="text"],
+.waitlist-input[type="email"] {
+  color: #F2F0ED !important;
+  -webkit-text-fill-color: #F2F0ED !important;
+  caret-color: #F2F0ED !important;
+}
+
+.waitlist-input:-webkit-autofill,
+.waitlist-input:-webkit-autofill:hover,
+.waitlist-input:-webkit-autofill:focus,
+.waitlist-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1A1A1E inset !important;
+  -webkit-text-fill-color: #F2F0ED !important;
+  color: #F2F0ED !important;
+  caret-color: #F2F0ED !important;
+}
+
 /* Newsletter popup input overrides - light text on dark background */
 .newsletter-input,
 .newsletter-input[type="email"] {
