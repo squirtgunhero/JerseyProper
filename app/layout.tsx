@@ -3,6 +3,7 @@ import { Outfit, Bodoni_Moda, DM_Sans, Instrument_Serif, Cormorant_Garamond } fr
 import Script from 'next/script'
 import './globals.css'
 import ScrollToTop from '@/components/ScrollToTop'
+import LinkedInInsight from '@/components/LinkedInInsight'
 import JsonLd from '@/components/JsonLd'
 import CookieConsent from '@/components/CookieConsent'
 import SatelliteDownlinkPopup from '@/components/SatelliteDownlinkPopup'
@@ -129,6 +130,8 @@ export default function RootLayout({
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://snap.licdn.com" />
+        <link rel="dns-prefetch" href="https://px.ads.linkedin.com" />
       </head>
       <body className={`${outfit.className} antialiased`}>
         <ScrollToTop />
@@ -151,30 +154,7 @@ export default function RootLayout({
         </Script>
 
         {/* LinkedIn Insight Tag */}
-        <Script id="linkedin-partner" strategy="afterInteractive">
-          {`
-            _linkedin_partner_id = "8689282";
-            window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
-            window._linkedin_data_partner_ids.push(_linkedin_partner_id);
-          `}
-        </Script>
-        <Script id="linkedin-insight" strategy="afterInteractive">
-          {`
-            (function(l) {
-              if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
-              window.lintrk.q=[]}
-              var s = document.getElementsByTagName("script")[0];
-              var b = document.createElement("script");
-              b.type = "text/javascript";b.async = true;
-              b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
-              s.parentNode.insertBefore(b, s);
-            })(window.lintrk);
-          `}
-        </Script>
-        <noscript>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img height="1" width="1" style={{ display: 'none' }} alt="" src="https://px.ads.linkedin.com/collect/?pid=8689282&fmt=gif" />
-        </noscript>
+        <LinkedInInsight />
 
         {/* AI Attribution Tracker - Track AI-driven traffic */}
         <Script
